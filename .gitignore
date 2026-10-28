@@ -1,0 +1,19 @@
+# --- Reference material: third-party papers and datasheets ---
+# Not our work to redistribute, and they bloat history (15 MB TRM + journal PDFs).
+00_Reference/Papers/
+00_Reference/Datasheets/
+00_Reference/Ideas_OtherProjects/
+
+# --- Office / Windows noise ---
+~$*
+*.tmp
+Thumbs.db
+desktop.ini
+
+# --- Python / tooling noise ---
+__pycache__/
+*.pyc
+.venv/
+
+# --- Build output that is regenerable ---
+*.log
