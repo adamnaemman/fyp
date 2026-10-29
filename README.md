@@ -76,6 +76,14 @@ Jadual asal: `01_Planning\Schedule\FYP1_Seminar_Schedule_Official.png`
 
 ---
 
+## Bahan belajar dan rujukan
+
+   02_Proposal\References_IoT.md       18 kertas beranotasi, DOI disahkan Crossref, dipetakan ke bab
+   01_Planning\IoT_Learning_Roadmap.md 38 jam belajar IoT, ikut lapis, ada proof-of-learning + checkpoint
+   01_Planning\IoT_Glossary.md         32 istilah yang mesti boleh terangkan + 3 ayat sedia untuk Q&A
+
+---
+
 ## Status sekarang (hujung minggu 5)
 
 - [x] Proposal dikemas: objectives 5 → 4, band 865-868 → 919-923 MHz, kategori AI → IoT/Embedded, senarai rujukan ditambah
