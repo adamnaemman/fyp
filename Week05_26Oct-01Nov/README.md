@@ -17,6 +17,8 @@ Report/  - draf bab laporan untuk minggu ini (Chapter 1 final; Chapter 2 draft +
 Output/  - hasil kerja minggu ini:
            BagSense_Design_Pack_W5.docx / .pdf    arkitektur + sequence + wireframe + storyboard v1 (6 frame)
            BagSense_Storyboard_v2_detailed.docx / .pdf   18 frame + 14 requirement (R1-R14) + jadual traceability
+           Commercial_Comparison.xlsx      3 produk komersial, harga RM, semakan dakwaan kos, senarai sumber
+           Commercial_Comparison_slides.pdf / .pptx   8 slaid untuk bentangan/seminar
            figures\        fig1..fig4 PNG (untuk laporan/slaid)
            storyboard_v2\  frame_01..frame_18 PNG + contact sheet
 

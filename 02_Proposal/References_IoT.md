@@ -268,6 +268,23 @@ Do not cite these in the report; read them.
 
 ---
 
+## Commercial sources (vendor pages)
+
+Used in Chapter 2's comparison of related systems, not in the academic review. Cite them as product pages with an
+access date — they are not peer-reviewed and should never carry a technical claim you cannot also support from the
+papers above.
+
+- Apple. (2026). *AirTag* [Product page]. https://www.apple.com/my/airtag/ (accessed 29 October 2026)
+- Apple. (2026). *AirTag (2nd generation) — Tech Specs*. https://support.apple.com/en-us/126203 (accessed 29 October 2026)
+- Impinj. (2026). *Speedway R420 RAIN RFID reader* [Reseller listing]. https://www.rfid-uk.com/ (accessed 29 October 2026)
+- BAGTAG. (2026). *BAGTAG Flex* [Product page]. https://bagtag.com/product/bagtag-flex/ (accessed 29 October 2026)
+- Samsung Malaysia. (2024). *Accessory recommended retail price list* [PDF]. https://images.samsung.com/is/content/samsung/assets/my/tnc/ (accessed 29 October 2026)
+- Aenon Solutions. (2026). *RFID smart cabinet and locker solutions*. https://www.aenon.com.my/ (accessed 29 October 2026)
+
+Full comparison, prices in RM and the claims check: see `Week05_26Oct-01Nov/Output/Commercial_Comparison.xlsx`.
+
+---
+
 ## Verification note for the report
 
 All 18 DOIs resolve through Crossref, and the metadata quoted above (authors, year, venue, volume,
