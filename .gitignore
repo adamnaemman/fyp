@@ -17,3 +17,16 @@ __pycache__/
 
 # --- Build output that is regenerable ---
 *.log
+
+# --- Agent/meta: arahan agent, bukan hasil projek ---
+crew/
+scripts/file_index.py
+scripts/index_guard.py
+FILE-INDEX.md
+
+# --- Reka bentuk hardware: iterasi yang sudah digantikan ---
+# Fail kekal di disk untuk sejarah, tetapi render ~2.4 MB setiap satu tak perlu masuk repo.
+# Hanya set semasa (v10) di-commit. Lihat Week05.../hardware_design_v1/README.md.
+Week05_26Oct-01Nov/Output/hardware_design_v1/render_*_v[1-9].png
+Week05_26Oct-01Nov/Output/hardware_design_v1/bagsense_model_v[1-9].*
+Week05_26Oct-01Nov/Output/hardware_design_v1/sheet_hardware_design_v1.png
