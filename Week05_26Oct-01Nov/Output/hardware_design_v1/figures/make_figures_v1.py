@@ -13,6 +13,7 @@ from matplotlib.patches import Rectangle, FancyArrowPatch, Circle
 from PIL import Image, ImageDraw, ImageFont
 
 OUT = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(OUT)          # hardware_design_v1/ — folder yang simpan v1..v10
 VER = "v1"
 
 DIM = dict(
@@ -282,7 +283,7 @@ def wiring():
 # 3. LABEL pada render top view (unjuran ortho tepat)
 # ---------------------------------------------------------------------------
 def labelled_layout():
-    src = os.path.join(OUT, "render_top_v9.png")
+    src = os.path.join(ROOT, "v9", "render_top_v9.png")
     dst = os.path.join(OUT, f"figure_layout_labelled_{VER}.png")
     im = Image.open(src).convert("RGB")
     dr = ImageDraw.Draw(im)

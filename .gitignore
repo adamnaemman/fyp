@@ -25,8 +25,13 @@ scripts/index_guard.py
 FILE-INDEX.md
 
 # --- Reka bentuk hardware: iterasi yang sudah digantikan ---
-# Fail kekal di disk untuk sejarah, tetapi render ~2.4 MB setiap satu tak perlu masuk repo.
-# Hanya set semasa (v10) di-commit. Lihat Week05.../hardware_design_v1/README.md.
-Week05_26Oct-01Nov/Output/hardware_design_v1/render_*_v[1-9].png
-Week05_26Oct-01Nov/Output/hardware_design_v1/bagsense_model_v[1-9].*
-Week05_26Oct-01Nov/Output/hardware_design_v1/sheet_hardware_design_v1.png
+# Folder hardware_design_v1/ diasingkan ikut versi: v1/ .. v10/ (model + render + skrip
+# penjana versi itu), figures/ (blueprint, wiring, layout), sheets/ (helaian 4 panel).
+# Skrip .py setiap versi masuk repo (kecil, itu sejarah sebenar); binari berat kekal di disk.
+# Hanya set semasa (v10) binari di-commit. Lihat Week05.../hardware_design_v1/README.md.
+Week05_26Oct-01Nov/Output/hardware_design_v1/v[1-9]/*.blend
+Week05_26Oct-01Nov/Output/hardware_design_v1/v[1-9]/*.glb
+Week05_26Oct-01Nov/Output/hardware_design_v1/v[1-9]/*.obj
+Week05_26Oct-01Nov/Output/hardware_design_v1/v[1-9]/*.mtl
+Week05_26Oct-01Nov/Output/hardware_design_v1/v[1-9]/render_*.png
+Week05_26Oct-01Nov/Output/hardware_design_v1/sheets/sheet_hardware_design_v1.png

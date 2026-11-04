@@ -1,17 +1,18 @@
 # Gabung render jadi satu helaian untuk laporan / meeting
-# Jalankan: python make_sheet_v1.py
+# Jalankan dari mana-mana: python hardware_design_v1/sheets/make_sheet_v1.py
 
 import os
 from PIL import Image, ImageDraw, ImageFont
 
 OUT = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(OUT)          # hardware_design_v1/ — folder yang simpan v1..v10
 VER = "v1"
 
 PANELS = [
-    ("render_iso_v9.png", "1. Rupa beg - pandangan isometrik (ortho)"),
-    ("figure_layout_labelled_v1.png", "2. Susun atur dalam cavity - pandangan atas"),
-    ("render_section_v9.png", "3. Keratan hadapan - panel depan dibuang"),
-    ("render_wireframe_iso_v9.png", "4. Wireframe - struktur dan komponen dalaman"),
+    ("v9/render_iso_v9.png", "1. Rupa beg - pandangan isometrik (ortho)"),
+    ("figures/figure_layout_labelled_v1.png", "2. Susun atur dalam cavity - pandangan atas"),
+    ("v9/render_section_v9.png", "3. Keratan hadapan - panel depan dibuang"),
+    ("v9/render_wireframe_iso_v9.png", "4. Wireframe - struktur dan komponen dalaman"),
 ]
 
 CELL_W, CELL_H = 1000, 780
@@ -48,7 +49,7 @@ dr.text((MARGIN, 112), "AMARAN: dimensi masih ANDAIAN - belum diukur pada beg se
         font=f_note, fill=(170, 72, 10))
 
 for i, (fn, cap) in enumerate(PANELS):
-    p = os.path.join(OUT, fn)
+    p = os.path.join(ROOT, fn.replace("/", os.sep))
     if not os.path.exists(p):
         print("TIADA:", p)
         continue
