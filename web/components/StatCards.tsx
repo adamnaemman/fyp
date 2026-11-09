@@ -35,7 +35,7 @@ export default function StatCards({ s }: { s: Stats }) {
           <small> / {s.tasksTotal} siap</small>
         </div>
         <div className="sub2">
-          {s.tasksBrief} masih brief · {s.tasksBlocked} sekat
+          {s.tasksBrief} masih brief · {s.tasksBlocked} berstatus sekat · {s.blocked} item tersekat
         </div>
         <div className="bar">
           <i style={{ width: `${pct(s.tasksDone, s.tasksTotal)}%` }} />

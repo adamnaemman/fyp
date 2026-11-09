@@ -19,7 +19,6 @@ web/
 │   ├── mutations.ts          guard tulis (sesi + peranan) untuk semua endpoint
 │   └── supabase/server.ts    klien SSR (kunci anon sahaja)
 ├── data/snapshot.json        DIJANA oleh tracker/export_snapshot.py - jangan edit tangan
-├── scripts/sync_supabase.py  jana snapshot; --push / --dry-run ke Supabase
 └── supabase/schema.sql       jadual + RLS + seed ahli, jalankan sekali di SQL Editor
 ```
 
