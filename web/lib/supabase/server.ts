@@ -5,7 +5,13 @@ import { cookies } from "next/headers";
 // jadi nilai dibaca pada MASA JALAN, bukan dibekukan semasa build. Ini yang membolehkan
 // env ditukar di Vercel tanpa deploy semula. (NEXT_PUBLIC_* masih diterima sebagai sandaran.)
 const url = process.env.SUPABASE_URL ?? process.env.NEXT_PUBLIC_SUPABASE_URL;
-const anon = process.env.SUPABASE_ANON_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// Supabase menamakan semula "anon key" -> "publishable key" (sb_publishable_...).
+// Dua-dua nama diterima supaya dashboard lama dan baru sama-sama jalan.
+const anon =
+  process.env.SUPABASE_ANON_KEY ??
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
+  process.env.SUPABASE_PUBLISHABLE_KEY ??
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
 /** true bila dua env var Supabase ada. Tanpa itu app jalan dalam mod snapshot (baca sahaja). */
 export const supabaseConfigured = Boolean(url && anon);
