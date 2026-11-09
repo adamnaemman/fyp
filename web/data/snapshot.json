@@ -1,0 +1,713 @@
+{
+ "generated": "2026-11-10 01:06",
+ "who": [
+  "Ahmad Adam Hakimi bin Naeman, matric 2418711, AI specialisation",
+  "Amru Hazem bin Ahmad Tarmizi, matric 2419467"
+ ],
+ "weeks": [
+  {
+   "id": "Week05_26Oct-01Nov",
+   "sort": 0,
+   "num": 5,
+   "suffix": "",
+   "label": "Minggu 5",
+   "start": "2026-10-26",
+   "end": "2026-11-01",
+   "seminar": "Seminar 3 (Fri 30 Oct): Using AI research tools ethically; Chapter 2 - Literature Review & reference tool",
+   "gate": "Order placed (screenshot kept) - design pack done - e-paper shows text - BLE link tested on a dev board",
+   "gate_status": "belum",
+   "gate_note": null,
+   "focus": [
+    {
+     "id": "Week05_26Oct-01Nov-ba9c5480",
+     "ord": 0,
+     "text": "Confirm the RFID module is the 919-923 MHz variant before paying; place the order (local stock).",
+     "done": false
+    },
+    {
+     "id": "Week05_26Oct-01Nov-7aa8706e",
+     "ord": 1,
+     "text": "Produce the design pack: storyboard, system architecture, scan sequence, wireframes.",
+     "done": false
+    },
+    {
+     "id": "Week05_26Oct-01Nov-53461e11",
+     "ord": 2,
+     "text": "Install PlatformIO + ESP-IDF; smoke test: e-paper text, Hall sensor read.",
+     "done": false
+    },
+    {
+     "id": "Week05_26Oct-01Nov-0588ab94",
+     "ord": 3,
+     "text": "Draft Chapter 2 (literature review) and a proper APA reference list.",
+     "done": false
+    },
+    {
+     "id": "Week05_26Oct-01Nov-e237bc49",
+     "ord": 4,
+     "text": "Send figures + three closed questions to the supervisor.",
+     "done": false
+    }
+   ],
+   "evidence": {
+    "docs": 127,
+    "code": 23,
+    "report": 1,
+    "synced_at": "2026-11-10"
+   }
+  },
+  {
+   "id": "Week06_02Nov-08Nov",
+   "sort": 1,
+   "num": 6,
+   "suffix": "",
+   "label": "Minggu 6",
+   "start": "2026-11-02",
+   "end": "2026-11-08",
+   "seminar": "No seminar scheduled",
+   "gate": "BLE link shows live data in the app - e-paper draws a status line - box v0 fits the parts",
+   "gate_status": "belum",
+   "gate_note": null,
+   "focus": [
+    {
+     "id": "Week06_02Nov-08Nov-9b2aab6a",
+     "ord": 0,
+     "text": "Firmware plumbing: UART driver stub, Hall ISR, e-paper render task, BLE GATT service.",
+     "done": false
+    },
+    {
+     "id": "Week06_02Nov-08Nov-de5cc58a",
+     "ord": 1,
+     "text": "Flutter skeleton: scan, connect, checklist list, read status over BLE.",
+     "done": false
+    },
+    {
+     "id": "Week06_02Nov-08Nov-4e9b1879",
+     "ord": 2,
+     "text": "Enclosure v0 modelled and printed; test fit with the dev board.",
+     "done": false
+    },
+    {
+     "id": "Week06_02Nov-08Nov-ec2f795d",
+     "ord": 3,
+     "text": "Finish Chapter 2; outline Chapter 3.",
+     "done": false
+    }
+   ],
+   "evidence": {
+    "docs": 10,
+    "code": 28,
+    "report": 0,
+    "synced_at": "2026-11-10"
+   }
+  },
+  {
+   "id": "Week07_09Nov-15Nov",
+   "sort": 2,
+   "num": 7,
+   "suffix": "",
+   "label": "Minggu 7",
+   "start": "2026-11-09",
+   "end": "2026-11-15",
+   "seminar": "Seminar 4 (Fri 13 Nov): Chapter 3 - Methodology",
+   "gate": "One tag read in open air, >= 95% of 100 trials, logged to CSV",
+   "gate_status": "belum",
+   "gate_note": null,
+   "focus": [
+    {
+     "id": "Week07_09Nov-15Nov-a2aadc54",
+     "ord": 0,
+     "text": "Parts should arrive: bring up the reader over UART at 919-923 MHz.",
+     "done": false
+    },
+    {
+     "id": "Week07_09Nov-15Nov-07150fd2",
+     "ord": 1,
+     "text": "Single-tag read test: 100 trials, log success rate and per-read time to CSV.",
+     "done": false
+    },
+    {
+     "id": "Week07_09Nov-15Nov-b627e209",
+     "ord": 2,
+     "text": "Write Chapter 3 methodology for the seminar; insert Figure 1 and Figure 2.",
+     "done": false
+    },
+    {
+     "id": "Week07_09Nov-15Nov-86eb9852",
+     "ord": 3,
+     "text": "Book the 3D printer slot for the enclosure v1.",
+     "done": false
+    }
+   ],
+   "evidence": {
+    "docs": 1,
+    "code": 0,
+    "report": 0,
+    "synced_at": "2026-11-10"
+   }
+  },
+  {
+   "id": "Week07B_SemBreak_16Nov-22Nov",
+   "sort": 3,
+   "num": 7,
+   "suffix": "B",
+   "label": "Minggu 7B",
+   "start": "2026-11-16",
+   "end": "2026-11-22",
+   "seminar": "SEMESTER BREAK - no classes (this is build time, not holiday)",
+   "gate": "First cavity recall figure recorded with method written down",
+   "gate_status": "belum",
+   "gate_note": null,
+   "focus": [
+    {
+     "id": "Week07B_SemBreak_16Nov-22Nov-50e64702",
+     "ord": 0,
+     "text": "This week is the schedule buffer: if parts were late, recovery happens here.",
+     "done": false
+    },
+    {
+     "id": "Week07B_SemBreak_16Nov-22Nov-c7a1d102",
+     "ord": 1,
+     "text": "Cavity trial: 5 tags, 3 positions, first recall number recorded honestly.",
+     "done": false
+    },
+    {
+     "id": "Week07B_SemBreak_16Nov-22Nov-abf472bc",
+     "ord": 2,
+     "text": "CAD v1: antenna mount, liner placement on the outer shell only.",
+     "done": false
+    },
+    {
+     "id": "Week07B_SemBreak_16Nov-22Nov-f5ae92dd",
+     "ord": 3,
+     "text": "Liner sample test: does it reduce outside reads without killing inside reads?",
+     "done": false
+    }
+   ],
+   "evidence": {
+    "docs": 0,
+    "code": 0,
+    "report": 0,
+    "synced_at": "2026-11-10"
+   }
+  },
+  {
+   "id": "Week08_23Nov-29Nov",
+   "sort": 4,
+   "num": 8,
+   "suffix": "",
+   "label": "Minggu 8",
+   "start": "2026-11-23",
+   "end": "2026-11-29",
+   "seminar": "Seminar 5 (Fri 27 Nov): Development Framework",
+   "gate": ">= 90% recall with 5 tags -> proceed; 70-90% -> reposition once; < 70% -> switch to Plan B",
+   "gate_status": "belum",
+   "gate_note": null,
+   "focus": [
+    {
+     "id": "Week08_23Nov-29Nov-285aae49",
+     "ord": 0,
+     "text": "Full pilot: 5 tags x 3 positions x 20 trials; latency distribution.",
+     "done": false
+    },
+    {
+     "id": "Week08_23Nov-29Nov-5730476e",
+     "ord": 1,
+     "text": "Confinement test: tags outside the bag at 0.5 m and 1.0 m.",
+     "done": false
+    },
+    {
+     "id": "Week08_23Nov-29Nov-b7eccd57",
+     "ord": 2,
+     "text": "Branch decision on the measured result (proceed / reposition once / plan B).",
+     "done": false
+    },
+    {
+     "id": "Week08_23Nov-29Nov-e64dd2f5",
+     "ord": 3,
+     "text": "Zipper-triggered scan working automatically.",
+     "done": false
+    }
+   ],
+   "evidence": {
+    "docs": 0,
+    "code": 0,
+    "report": 0,
+    "synced_at": "2026-11-10"
+   }
+  },
+  {
+   "id": "Week09_30Nov-06Dec",
+   "sort": 5,
+   "num": 9,
+   "suffix": "",
+   "label": "Minggu 9",
+   "start": "2026-11-30",
+   "end": "2026-12-06",
+   "seminar": "Seminar 6 (Fri 4 Dec): Prototype Design (UI/UX)",
+   "gate": "End-to-end run succeeds 5 times in a row without a restart",
+   "gate_status": "belum",
+   "gate_note": null,
+   "focus": [
+    {
+     "id": "Week09_30Nov-06Dec-53da170f",
+     "ord": 0,
+     "text": "End-to-end integration: zip -> scan -> E-paper + app notification.",
+     "done": false
+    },
+    {
+     "id": "Week09_30Nov-06Dec-02b41333",
+     "ord": 1,
+     "text": "Polish wireframes to what the seminar gives feedback on; finalise screens.",
+     "done": false
+    },
+    {
+     "id": "Week09_30Nov-06Dec-f1ad4dea",
+     "ord": 2,
+     "text": "Enclosure v1 with liner and antenna mount, printed and fitted.",
+     "done": false
+    }
+   ],
+   "evidence": {
+    "docs": 0,
+    "code": 0,
+    "report": 0,
+    "synced_at": "2026-11-10"
+   }
+  },
+  {
+   "id": "Week10_07Dec-13Dec",
+   "sort": 6,
+   "num": 10,
+   "suffix": "",
+   "label": "Minggu 10",
+   "start": "2026-12-07",
+   "end": "2026-12-13",
+   "seminar": "No seminar scheduled",
+   "gate": "Results table complete; each figure traceable to a CSV or meter reading",
+   "gate_status": "belum",
+   "gate_note": null,
+   "focus": [
+    {
+     "id": "Week10_07Dec-13Dec-655e993f",
+     "ord": 0,
+     "text": "Measure: 15-tag recall and latency (median and max).",
+     "done": false
+    },
+    {
+     "id": "Week10_07Dec-13Dec-f0065bca",
+     "ord": 1,
+     "text": "Current profile: sleep uA, scan mA, events per day -> compute endurance in days.",
+     "done": false
+    },
+    {
+     "id": "Week10_07Dec-13Dec-1b4afa95",
+     "ord": 2,
+     "text": "Usability test with 10 participants (SUS), record scores.",
+     "done": false
+    },
+    {
+     "id": "Week10_07Dec-13Dec-f39ffda1",
+     "ord": 3,
+     "text": "Every number written into one results table with its evidence file.",
+     "done": false
+    }
+   ],
+   "evidence": {
+    "docs": 0,
+    "code": 0,
+    "report": 0,
+    "synced_at": "2026-11-10"
+   }
+  },
+  {
+   "id": "Week11_14Dec-20Dec",
+   "sort": 7,
+   "num": 11,
+   "suffix": "",
+   "label": "Minggu 11",
+   "start": "2026-12-14",
+   "end": "2026-12-20",
+   "seminar": "Seminar 7 (Fri 18 Dec): Innovatex (FYP Showcase) briefing",
+   "gate": "Full report draft complete; poster designed; demo script written",
+   "gate_status": "belum",
+   "gate_note": null,
+   "focus": [
+    {
+     "id": "Week11_14Dec-20Dec-e9aea868",
+     "ord": 0,
+     "text": "Writing week: full report draft, all chapters.",
+     "done": false
+    },
+    {
+     "id": "Week11_14Dec-20Dec-588b7197",
+     "ord": 1,
+     "text": "Poster content and layout; demo script (zip, wait, read).",
+     "done": false
+    },
+    {
+     "id": "Week11_14Dec-20Dec-0e4aa993",
+     "ord": 2,
+     "text": "Feature freeze from here - no new capability.",
+     "done": false
+    }
+   ],
+   "evidence": {
+    "docs": 0,
+    "code": 0,
+    "report": 0,
+    "synced_at": "2026-11-10"
+   }
+  },
+  {
+   "id": "Week12_21Dec-27Dec",
+   "sort": 8,
+   "num": 12,
+   "suffix": "",
+   "label": "Minggu 12",
+   "start": "2026-12-21",
+   "end": "2026-12-27",
+   "seminar": "No seminar scheduled - deliverables must be closed this week",
+   "gate": "Everything staged and printed; demo rehearsed 3x; backup video recorded",
+   "gate_status": "belum",
+   "gate_note": null,
+   "focus": [
+    {
+     "id": "Week12_21Dec-27Dec-87a6d1ff",
+     "ord": 0,
+     "text": "Freeze. Bugs only, no features.",
+     "done": false
+    },
+    {
+     "id": "Week12_21Dec-27Dec-0d2c08fd",
+     "ord": 1,
+     "text": "Slides, recorded 3-minute backup demo video, printed poster.",
+     "done": false
+    },
+    {
+     "id": "Week12_21Dec-27Dec-1ef1f60f",
+     "ord": 2,
+     "text": "Rehearse the demo three times on the actual hardware.",
+     "done": false
+    }
+   ],
+   "evidence": {
+    "docs": 0,
+    "code": 0,
+    "report": 0,
+    "synced_at": "2026-11-10"
+   }
+  },
+  {
+   "id": "Week13_28Dec-03Jan",
+   "sort": 9,
+   "num": 13,
+   "suffix": "",
+   "label": "Minggu 13",
+   "start": "2026-12-28",
+   "end": "2027-01-03",
+   "seminar": "INNOVATEX - FYP Showcase (Fri 30 Dec, date TBC)",
+   "gate": "Demo runs on the day; backup video available if hardware fails",
+   "gate_status": "belum",
+   "gate_note": null,
+   "focus": [
+    {
+     "id": "Week13_28Dec-03Jan-134f078a",
+     "ord": 0,
+     "text": "Showcase day: live demo and poster.",
+     "done": false
+    },
+    {
+     "id": "Week13_28Dec-03Jan-69ac7375",
+     "ord": 1,
+     "text": "Bring spare tags, cables, power bank, printed slides.",
+     "done": false
+    },
+    {
+     "id": "Week13_28Dec-03Jan-0bc0f733",
+     "ord": 2,
+     "text": "Do not change the build on the morning of the showcase.",
+     "done": false
+    }
+   ],
+   "evidence": {
+    "docs": 0,
+    "code": 0,
+    "report": 0,
+    "synced_at": "2026-11-10"
+   }
+  },
+  {
+   "id": "Week14_05Jan-11Jan",
+   "sort": 10,
+   "num": 14,
+   "suffix": "",
+   "label": "Minggu 14",
+   "start": "2027-01-05",
+   "end": "2027-01-11",
+   "seminar": "Listed in the official schedule (Fri 8 Jan 2027)",
+   "gate": "-",
+   "gate_status": "belum",
+   "gate_note": null,
+   "focus": [
+    {
+     "id": "Week14_05Jan-11Jan-71870fc9",
+     "ord": 0,
+     "text": "Buffer only. No new work.",
+     "done": false
+    },
+    {
+     "id": "Week14_05Jan-11Jan-8b7882e9",
+     "ord": 1,
+     "text": "Keep the prototype charged and intact in case of re-assessment.",
+     "done": false
+    },
+    {
+     "id": "Week14_05Jan-11Jan-76e2642a",
+     "ord": 2,
+     "text": "Archive the final files; tidy the folder.",
+     "done": false
+    }
+   ],
+   "evidence": {
+    "docs": 0,
+    "code": 0,
+    "report": 0,
+    "synced_at": "2026-11-10"
+   }
+  }
+ ],
+ "tasks": [
+  {
+   "id": "1-A",
+   "batch_no": 1,
+   "batch_date": "2026-11-07",
+   "batch_note": "(audit asas sebelum Chapter 3)",
+   "role": "researcher",
+   "task": "Peta sitasi Chapter 2/3 + senarai claim tanpa sokongan",
+   "status": "siap",
+   "detail": "siap — 18 sitasi, 5 claim tanpa sokongan"
+  },
+  {
+   "id": "1-B",
+   "batch_no": 1,
+   "batch_date": "2026-11-07",
+   "batch_note": "(audit asas sebelum Chapter 3)",
+   "role": "builder",
+   "task": "Audit angka teknikal yang ada bukti vs yang belum diukur",
+   "status": "siap",
+   "detail": "siap — 30 ada, 24 tiada"
+  },
+  {
+   "id": "1-C",
+   "batch_no": 1,
+   "batch_date": "2026-11-07",
+   "batch_note": "(audit asas sebelum Chapter 3)",
+   "role": "writer",
+   "task": "Skeletons Chapter 3 ikut template IIUM, setiap slot tanda sumber bukti",
+   "status": "siap",
+   "detail": "siap — 11 seksyen, 7 boleh / 4 tersekat"
+  },
+  {
+   "id": "2-A",
+   "batch_no": 2,
+   "batch_date": "2026-11-07",
+   "batch_note": "(arahan pensyarah: app Flutter didahulukan)",
+   "role": "builder",
+   "task": "Laksana app Flutter v1 ikut `APP_SPEC.md` + buktikan `flutter analyze` 0 issue dan `flutter test` lulus",
+   "status": "siap",
+   "detail": "siap — analyze 0 issue, 7/7 test lulus"
+  },
+  {
+   "id": "2-B",
+   "batch_no": 2,
+   "batch_date": "2026-11-07",
+   "batch_note": "(arahan pensyarah: app Flutter didahulukan)",
+   "role": "leader",
+   "task": "Pasang Flutter SDK 3.47.9, jana projek `mobile_app_v1`, tulis `APP_SPEC.md` dari Figure 3",
+   "status": "siap",
+   "detail": "siap"
+  },
+  {
+   "id": "2-C",
+   "batch_no": 2,
+   "batch_date": "2026-11-07",
+   "batch_note": "(arahan pensyarah: app Flutter didahulukan)",
+   "role": "leader",
+   "task": "Sahkan semula analyze + test sendiri, build web, tangkap 4 skrin",
+   "status": "siap",
+   "detail": "siap — bukti dalam `mobile_app_v1\\screenshots\\`"
+  },
+  {
+   "id": "2-D",
+   "batch_no": 2,
+   "batch_date": "2026-11-07",
+   "batch_note": "(arahan pensyarah: app Flutter didahulukan)",
+   "role": "builder",
+   "task": "APK pada telefon sebenar + permintaan kebenaran runtime (permission_handler)",
+   "status": "brief",
+   "detail": "brief — perlu telefon"
+  },
+  {
+   "id": "2-E",
+   "batch_no": 2,
+   "batch_date": "2026-11-07",
+   "batch_note": "(arahan pensyarah: app Flutter didahulukan)",
+   "role": "leader",
+   "task": "Tambah platform iOS, kunci kebenaran Bluetooth dalam `Info.plist`, tulis `codemagic.yaml`",
+   "status": "siap",
+   "detail": "siap — plist disahkan `plistlib`, bundle id `my.iium.bagsenseApp`"
+  },
+  {
+   "id": "2-F",
+   "batch_no": 2,
+   "batch_date": "2026-11-07",
+   "batch_note": "(arahan pensyarah: app Flutter didahulukan)",
+   "role": "leader",
+   "task": "Cuba `flutter build apk --debug` atas mesin ini (Java 25 vs Gradle = risiko)",
+   "status": "siap",
+   "detail": "siap — APK 145 MB, Java 25 tidak lawan Gradle. Gradle muat turun NDK + build-tools 36 + CMake (1193 s pertama)"
+  },
+  {
+   "id": "3-A",
+   "batch_no": 3,
+   "batch_date": null,
+   "batch_note": "belum dihantar",
+   "role": "writer",
+   "task": "Draf penuh Chapter 3 (docx + PDF)",
+   "status": "brief",
+   "detail": "brief"
+  },
+  {
+   "id": "3-B",
+   "batch_no": 3,
+   "batch_date": null,
+   "batch_note": "belum dihantar",
+   "role": "builder",
+   "task": "Skrip ujian single-tag + templat CSV 100 trials",
+   "status": "brief",
+   "detail": "brief"
+  },
+  {
+   "id": "3-C",
+   "batch_no": 3,
+   "batch_date": null,
+   "batch_note": "belum dihantar",
+   "role": "builder",
+   "task": "Kira power budget dengan nilai datasheet, tandakan yang tiada",
+   "status": "brief",
+   "detail": "brief"
+  }
+ ],
+ "milestones": [
+  {
+   "id": "ms-seminar-4-chapter",
+   "label": "Seminar 4 (Chapter 3 Methodology)",
+   "date": "2026-11-13",
+   "ord": 0
+  },
+  {
+   "id": "ms-cuti-semester",
+   "label": "Cuti semester",
+   "date": "2026-11-22",
+   "ord": 1
+  },
+  {
+   "id": "ms-seminar-5-developm",
+   "label": "Seminar 5 (Development Framework)",
+   "date": "2026-11-27",
+   "ord": 2
+  },
+  {
+   "id": "ms-seminar-6-prototyp",
+   "label": "Seminar 6 (Prototype Design UI/UX)",
+   "date": "2026-12-04",
+   "ord": 3
+  },
+  {
+   "id": "ms-seminar-7-innovate",
+   "label": "Seminar 7 (Innovatex briefing)",
+   "date": "2026-12-18",
+   "ord": 4
+  },
+  {
+   "id": "ms-deliverables-tutup",
+   "label": "Deliverables tutup",
+   "date": "2026-12-25",
+   "ord": 5
+  },
+  {
+   "id": "ms-innovatex-showcase",
+   "label": "INNOVATEX showcase",
+   "date": "2026-12-30",
+   "ord": 6
+  }
+ ],
+ "blocked": [
+  {
+   "id": "blk-gate-week-6-ble-li",
+   "what": "Gate Week 6 (BLE live, e-paper, box v0)",
+   "why": "Tiada fail bukti langsung dalam `Week06\\Output`. Perlu hardware atau tangkap skrin.",
+   "resolved": false,
+   "ord": 0
+  },
+  {
+   "id": "blk-single-tag-read-10",
+   "what": "Single-tag read 100 trials",
+   "why": "Perlu reader fizikal. Belum sampai.",
+   "resolved": false,
+   "ord": 1
+  },
+  {
+   "id": "blk-sign-off-sv-untuk",
+   "what": "Sign-off SV untuk Seminar 4",
+   "why": "Manusia.",
+   "resolved": false,
+   "ord": 2
+  }
+ ],
+ "specs": [
+  {
+   "key": "MCU",
+   "value": "ESP32-S3",
+   "ord": 0
+  },
+  {
+   "key": "RFID",
+   "value": "UHF, jalur 919–923 MHz (bukan 865–868 — proposal lama sudah dibetulkan)",
+   "ord": 1
+  },
+  {
+   "key": "Display",
+   "value": "E-paper",
+   "ord": 2
+  },
+  {
+   "key": "App",
+   "value": "Flutter",
+   "ord": 3
+  },
+  {
+   "key": "Objectives",
+   "value": "4 (bukan 5)",
+   "ord": 4
+  },
+  {
+   "key": "Kategori projek",
+   "value": "IoT / Embedded (bukan AI)",
+   "ord": 5
+  }
+ ],
+ "plans": [
+  {
+   "name": "Plan B",
+   "text": "Demo aliran penuh guna simpanan tag yang dijana firmware (bukan bacaan sebenar) untuk menunjukkan app + e-paper + trigger zipper berfungsi, dan laporkan ujian RF sebagai \"preliminary characterisation\" dengan data yang ada. Nyatakan dengan jujur dalam laporan. Panel FYP1 lebih hormat pada had yang diukur daripada angka yang direka.",
+   "ord": 0
+  },
+  {
+   "name": "Plan C",
+   "text": "Tukar fokus daripada \"scan seluruh cavity\" kepada \"scan satu poket hadapan\" (contohnya poket laptop/tablet). Skop kecil yang berfungsi mengalahkan skop besar yang gagal, dan masih menjawab soalan penyelia: bolehkah UHF baca tag tanpa line of sight dalam fabrik?",
+   "ord": 1
+  }
+ ]
+}

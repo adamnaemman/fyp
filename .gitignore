@@ -35,3 +35,22 @@ Week05_26Oct-01Nov/Output/hardware_design_v1/v[1-9]/*.obj
 Week05_26Oct-01Nov/Output/hardware_design_v1/v[1-9]/*.mtl
 Week05_26Oct-01Nov/Output/hardware_design_v1/v[1-9]/render_*.png
 Week05_26Oct-01Nov/Output/hardware_design_v1/sheets/sheet_hardware_design_v1.png
+
+# rahsia — jangan sekali-kali commit
+.env
+.env.*
+*.env
+*.key
+*.pem
+secrets/
+
+# Node / Next.js (web/) — dependency dan hasil build, bukan hasil kerja
+node_modules/
+.next/
+.next_prev/
+out/
+.turbo/
+*.tsbuildinfo
+
+# contoh env mesti masuk repo; .env sebenar tidak
+!.env.example
