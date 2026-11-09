@@ -18,7 +18,8 @@ web/
 │   ├── auth.ts               sesi + peranan dari jadual members
 │   ├── mutations.ts          guard tulis (sesi + peranan) untuk semua endpoint
 │   └── supabase/server.ts    klien SSR (kunci anon sahaja)
-├── data/snapshot.json        DIJANA oleh tracker/export_snapshot.py - jangan edit tangan
+├── data/snapshot.json        DIJANA oleh web/scripts/sync_supabase.py - jangan edit tangan
+├── scripts/sync_supabase.py  jana snapshot; --push / --dry-run ke Supabase
 └── supabase/schema.sql       jadual + RLS + seed ahli, jalankan sekali di SQL Editor
 ```
 
@@ -45,7 +46,7 @@ web/
    ```bash
    export SUPABASE_URL="https://xxxx.supabase.co"
    export SUPABASE_SERVICE_KEY="<service_role key>"
-   python tracker/export_snapshot.py --push
+   python web/scripts/sync_supabase.py --push
    ```
    Kunci service_role melangkau RLS: ia hanya di terminal, tidak pernah dalam kod pelayar.
 5. **Lokal** — `cp .env.example .env.local`, isi dua nilai, `npm run dev` → http://localhost:3000

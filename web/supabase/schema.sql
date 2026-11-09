@@ -4,7 +4,7 @@
 -- Peranan:
 --   anon          : baca sahaja (pautan tracker boleh dikongsi; SV tak perlu daftar)
 --   authenticated : tulis, HANYA kalau e-mel ada dalam jadual `members`
---   service_role  : kunci penuh — hanya pada mesin Adam (tracker/export_snapshot.py --push),
+--   service_role  : kunci penuh — hanya pada mesin Adam (web/scripts/sync_supabase.py --push),
 --                   tidak pernah masuk pelayar
 --
 -- Dua sumber data, sengaja dipisahkan:

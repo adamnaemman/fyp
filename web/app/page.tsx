@@ -133,7 +133,7 @@ export default async function Home({
         <div className="caveat">
           <h3>Apa yang halaman ini tak tahu</h3>
           <p>
-            Kiraan dokumen/kod datang dari <code>tracker/sync_supabase.py</code> yang mengira fail
+            Kiraan dokumen/kod datang dari <code>tracker/export_snapshot.py</code> yang mengira fail
             dalam <code>Week*/Output</code> dan <code>Report/</code> pada laptop. Kotak fokus, status
             gate dan status tugasan datang dari pangkalan data — hanya berubah bila ditekan.
           </p>

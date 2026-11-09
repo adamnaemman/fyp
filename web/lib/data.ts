@@ -90,7 +90,7 @@ export async function getTracker(): Promise<Tracker> {
       return { ...fallback, note: `Supabase: ${firstError.message} — papar snapshot fail projek.` };
     }
     if (!weeksQ.data?.length) {
-      return { ...fallback, note: "Supabase kosong — jalankan tracker/sync_supabase.py dulu. Papar snapshot." };
+      return { ...fallback, note: "Supabase kosong — jalankan tracker/export_snapshot.py --push dulu. Papar snapshot." };
     }
 
     const focusByWeek = new Map<string, FocusItem[]>();
