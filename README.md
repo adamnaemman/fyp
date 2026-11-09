@@ -31,7 +31,8 @@ D:\FYP
 ├── Week11_14Dec-20Dec\
 ├── Week12_21Dec-27Dec\   semua mesti siap
 ├── Week13_28Dec-03Jan\   INNOVATEX showcase
-└── Week14_05Jan-11Jan\   buffer
+├── Week14_05Jan-11Jan\   buffer
+└── tracker\              laman progres (dijana `python tracker/build_tracker.py`)
 ```
 
 Setiap folder minggu ada:

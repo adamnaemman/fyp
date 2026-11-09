@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BagSense — Progres FYP1</title>
+<style>
+:root{
+  --bg:#080b10; --bg2:#0b1017; --panel:#0f151d; --panel2:#121a24;
+  --line:#1d2733; --line2:#26313f;
+  --tx:#e8eef6; --dim:#8b9bad; --dim2:#617083;
+  --green:#4ade80; --amber:#fbbf24; --sky:#38bdf8; --red:#f87171; --violet:#a78bfa;
+  --mono:"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:
+  radial-gradient(900px 500px at 15% -10%,rgba(74,222,128,.06),transparent 70%),
+  radial-gradient(700px 400px at 100% 0%,rgba(56,189,248,.05),transparent 70%),
+  var(--bg);
+  color:var(--tx);font:15px/1.55 "Segoe UI",system-ui,-apple-system,sans-serif;
+  font-variant-numeric:tabular-nums}
+a{color:var(--sky);text-decoration:none}
+.wrap{max-width:1140px;margin:0 auto;padding:0 22px 80px}
+.top{position:sticky;top:0;z-index:9;background:rgba(8,11,16,.82);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top .wrap{padding:13px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{font-weight:650;letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
+.brand i{width:8px;height:8px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 0 4px rgba(74,222,128,.14)}
+.brand small{font-weight:400;color:var(--dim2);letter-spacing:.04em;font-size:12px}
+.top .spacer{flex:1}
+.stamp{font:12px var(--mono);color:var(--dim2)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1fr 200px;gap:28px;align-items:center;
+  padding:44px 0 34px}
+.kicker{margin:0 0 10px;font:12px var(--mono);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--green)}
+h1{margin:0 0 12px;font-size:clamp(28px,4.4vw,44px);line-height:1.06;letter-spacing:-.025em;
+  font-weight:680}
+h1 span{color:var(--dim)}
+.sub{margin:0;color:var(--dim);max-width:56ch}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.chip{border:1px solid var(--line2);background:var(--panel);border-radius:999px;
+  padding:5px 13px;font-size:12.5px;color:var(--dim);display:inline-flex;align-items:center;gap:7px}
+.chip b{color:var(--tx);font-weight:600}
+.chip.hot{border-color:rgba(251,191,36,.35);background:rgba(251,191,36,.07);color:#f3d489}
+.chip.hot b{color:var(--amber)}
+
+/* ring */
+.ring{--p:0;width:176px;height:176px;border-radius:50%;justify-self:end;
+  background:conic-gradient(var(--green) calc(var(--p)*1%),#16202b 0);
+  display:grid;place-items:center;position:relative;
+  box-shadow:0 0 46px rgba(74,222,128,.10)}
+.ring::after{content:"";position:absolute;inset:11px;border-radius:50%;background:var(--bg2);
+  border:1px solid var(--line)}
+.ring .in{position:relative;text-align:center;z-index:1}
+.ring .in b{display:block;font-size:34px;font-weight:660;letter-spacing:-.03em}
+.ring .in b span{font-size:18px;color:var(--dim)}
+.ring .in em{font-style:normal;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--dim2);font-family:var(--mono)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:16px 17px}
+.card .lbl{font:10.5px var(--mono);letter-spacing:.11em;text-transform:uppercase;color:var(--dim2)}
+.card .val{font-size:27px;font-weight:650;letter-spacing:-.02em;margin:7px 0 2px;line-height:1.1}
+.card .val small{font-size:14px;color:var(--dim);font-weight:500}
+.card .sub2{font-size:12px;color:var(--dim)}
+.bar{height:3px;border-radius:3px;background:#1a232f;margin-top:11px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--green);border-radius:3px}
+.bar.amber i{background:var(--amber)} .bar.sky i{background:var(--sky)}
+
+/* section head */
+h2.sec{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);
+  margin:44px 0 4px;font-family:var(--mono);font-weight:500}
+.secnote{color:var(--dim2);font-size:12.5px;margin:0 0 18px;max-width:78ch}
+
+/* timeline */
+.tl{position:relative;padding-left:0}
+.wk{display:grid;grid-template-columns:26px 1fr;gap:0}
+.rail{position:relative}
+.rail::before{content:"";position:absolute;left:11px;top:0;bottom:0;width:2px;background:var(--line)}
+.wk:first-child .rail::before{top:16px}
+.wk:last-child .rail::before{bottom:calc(100% - 16px)}
+.dot{position:absolute;left:4px;top:11px;width:16px;height:16px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--line2);z-index:1}
+.wk.lepas .dot{border-color:var(--green);background:var(--green)}
+.wk.kini .dot{border-color:var(--amber);box-shadow:0 0 0 5px rgba(251,191,36,.15);background:var(--amber)}
+.body{padding:0 0 16px 6px;min-width:0}
+.wkcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:15px 17px;min-width:0}
+.wk.kini .wkcard{border-color:rgba(251,191,36,.3);background:linear-gradient(180deg,rgba(251,191,36,.045),transparent 60%),var(--panel)}
+.wk.lepas .wkcard{background:var(--bg2)}
+.wkhead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.wkhead h3{margin:0;font-size:16.5px;font-weight:630;letter-spacing:-.01em}
+.wkhead .rng{font:12px var(--mono);color:var(--dim2)}
+.tag{font:10.5px var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;
+  border-radius:999px;border:1px solid var(--line2);color:var(--dim2)}
+.tag.kini{color:#f3d489;border-color:rgba(251,191,36,.4);background:rgba(251,191,36,.08)}
+.tag.lepas{color:#7ddca4;border-color:rgba(74,222,128,.3);background:rgba(74,222,128,.07)}
+.sem{color:var(--dim);font-size:13px;margin:0 0 11px}
+.sem b{color:var(--tx);font-weight:600}
+.gate{display:flex;gap:10px;row-gap:5px;flex-wrap:wrap;align-items:flex-start;background:var(--bg2);border:1px solid var(--line);
+  border-left:2px solid var(--line2);border-radius:8px;padding:9px 12px;margin-bottom:12px}
+.wk.kini .gate{border-left-color:var(--amber)}
+.gk{font:10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim2);
+  padding-top:3px;flex:0 0 auto}
+.gate p{margin:0;font-size:13.2px;color:#cfdbe8;flex:1;min-width:0}
+.ev{font:11px var(--mono);color:var(--dim2);flex:0 0 auto;padding-top:3px}
+ul.focus{list-style:none;margin:0;padding:0;display:grid;gap:5px}
+ul.focus li{font-size:13.2px;color:#c2cfdd;display:flex;gap:9px;align-items:flex-start}
+ul.focus li::before{content:"☐";color:var(--dim2);font-size:14px;line-height:1.3}
+ul.focus li.done{color:var(--dim2);text-decoration:line-through}
+ul.focus li.done::before{content:"☑";color:var(--green);text-decoration:none}
+
+/* two cols */
+.cols{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:13px;overflow:hidden}
+.panel>.ph{padding:13px 16px;border-bottom:1px solid var(--line);display:flex;
+  justify-content:space-between;align-items:center;gap:10px}
+.panel>.ph h3{margin:0;font-size:13px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--dim);font-family:var(--mono);font-weight:500}
+.panel>.pb{padding:6px 16px 14px}
+.batch{margin:12px 0 2px;font:11px var(--mono);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--dim2)}
+.batch b{color:var(--sky);font-weight:600}
+.task{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid #141c25}
+.task:last-child{border-bottom:0}
+.task .id{font:11px var(--mono);color:var(--dim2);flex:0 0 34px;padding-top:2px}
+.task .t{flex:1;font-size:13px;color:#c8d4e2}
+.task .t em{display:block;font-style:normal;font-size:11.5px;color:var(--dim2);margin-top:2px}
+.st{font:10px var(--mono);letter-spacing:.07em;text-transform:uppercase;padding:2px 7px;
+  border-radius:5px;flex:0 0 auto;border:1px solid}
+.st.siap{color:#7ddca4;border-color:rgba(74,222,128,.32);background:rgba(74,222,128,.08)}
+.st.jalan{color:#f3d489;border-color:rgba(251,191,36,.32);background:rgba(251,191,36,.08)}
+.st.brief{color:var(--dim);border-color:var(--line2)}
+.st.sekat{color:#f7a1a1;border-color:rgba(248,113,113,.32);background:rgba(248,113,113,.08)}
+
+/* milestones */
+.ms{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid #141c25;align-items:baseline}
+.ms:last-child{border-bottom:0}
+.ms .d{font:11.5px var(--mono);color:var(--dim);flex:0 0 74px}
+.ms .l{flex:1;font-size:13px;color:#c8d4e2}
+.ms .n{font:11px var(--mono);flex:0 0 auto}
+.ms.past{opacity:.55}
+.ms.next .n{color:var(--amber)}
+.ms.next .l{color:#fff;font-weight:600}
+.ms .n.soon{color:var(--red)}
+
+/* blocked / specs */
+.blk{padding:9px 0;border-bottom:1px solid #141c25}
+.blk:last-child{border-bottom:0}
+.blk b{display:block;font-size:13px;color:#f7c7c7;font-weight:600}
+.blk span{font-size:12.2px;color:var(--dim)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:5px 14px;font-size:13px;padding:4px 0 9px;margin:0}
+.kv dt{color:var(--dim2);font:11.5px var(--mono);text-transform:uppercase;letter-spacing:.06em}
+.kv dd{margin:0;color:#cfdbe8}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.plan{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--violet);
+  border-radius:10px;padding:14px 16px}
+.plan h3{margin:0 0 6px;font-size:13.5px;color:#cdbbfd;letter-spacing:.01em}
+.plan p{margin:0;font-size:13px;color:#c2cfdd}
+
+/* what we can't know */
+.caveat{margin-top:26px;border:1px dashed var(--line2);border-radius:12px;padding:15px 17px;
+  background:rgba(56,189,248,.03)}
+.caveat h3{margin:0 0 6px;font-size:13px;color:#a9d7f5;letter-spacing:.02em}
+.caveat p{margin:0 0 8px;font-size:13px;color:var(--dim)}
+.caveat p:last-child{margin:0}
+code{font:12px var(--mono);background:#131b24;border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:#c9d7e6}
+footer{margin-top:38px;padding-top:18px;border-top:1px solid var(--line);color:var(--dim2);
+  font-size:12px;display:flex;gap:18px;flex-wrap:wrap;justify-content:space-between}
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr;padding:30px 0 24px}
+  .ring{justify-self:start;width:132px;height:132px}
+  .ring .in b{font-size:26px}
+  .cols,.plans{grid-template-columns:1fr}
+  .top .wrap{padding:11px 22px}
+  .wrap{padding:0 14px 60px}
+}
+@media (max-width:520px){
+  .top .stamp{display:none}
+  .gate{display:block}
+  .gate .gk{display:block;margin-bottom:3px}
+  .gate .ev{display:block;margin-top:6px;padding-top:0}
+  .hero .chips .chip{font-size:12px}
+  .card .val{font-size:24px}
+}
+@media print{
+  body{background:#fff;color:#111} .top,.ring,.caveat{display:none}
+  .card,.panel,.wkcard,.plan{border-color:#ccc;background:#fff}
+}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap">
+  <div class="brand"><i></i>BagSense <small>FYP1 · BICS 4321</small></div>
+  <div class="spacer"></div>
+  <div class="stamp">dijana 2026-11-10 00:26 · 239 fail</div>
+</div></div>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div>
+      <p class="kicker">Minggu aktif · Minggu 7 daripada 11</p>
+      <h1>Progres FYP1 <span>— BagSense</span></h1>
+      <p class="sub">Beg pintar Edge-IoT: ESP32-S3, pembaca UHF RFID 919–923 MHz, E-paper,
+        app Flutter. Setiap angka di halaman ni dibaca terus dari fail projek — tiada yang direka.</p>
+      <div class="chips">
+        <span class="chip">Tempoh projek <b>26 Okt – 11 Jan 2027</b></span>
+        <span class="chip hot">Seterusnya · <b>Seminar 4 (Chapter 3 Methodology)</b> · 13 Nov · 3 hari lagi</span>
+        <span class="chip">Sekat <b>3</b></span>
+      </div>
+    </div>
+    <div class="ring" style="--p:19.2">
+      <div class="in"><b>19.2<span>%</span></b><em>masa berlalu</em></div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="card">
+      <div class="lbl">Minggu</div>
+      <div class="val">2<small> / 11 lepas</small></div>
+      <div class="sub2">seminggu dianggap lepas bila tarikh tamatnya sudah berlalu</div>
+      <div class="bar"><i style="width:18%"></i></div>
+    </div>
+    <div class="card">
+      <div class="lbl">Item fokus</div>
+      <div class="val">0<small> / 40 ditanda</small></div>
+      <div class="sub2">dikira dari kotak <code>[ ]</code> dalam README mingguan</div>
+      <div class="bar sky"><i style="width:0%"></i></div>
+    </div>
+    <div class="card">
+      <div class="lbl">Tugasan</div>
+      <div class="val">8<small> / 12 siap</small></div>
+      <div class="sub2">4 masih brief · 3 sekat</div>
+      <div class="bar"><i style="width:67%"></i></div>
+    </div>
+    <div class="card">
+      <div class="lbl">Bahan bukti</div>
+      <div class="val">138<small> dokumen/data</small></div>
+      <div class="sub2">51 fail kod · 1 dalam Report/ ·
+        scaffolding Flutter tak dikira</div>
+      <div class="bar amber"><i style="width:100%"></i></div>
+    </div>
+  </section>
+
+  <h2 class="sec">Garis masa mingguan</h2>
+  <p class="secnote">Gate setiap minggu ialah syarat yang boleh diuji sendiri. Lencana gate
+    sengaja <b>tiada</b>: skrip cuma tahu berapa fail ada, bukan sama ada ujian benar-benar lulus.
+    Bilangan fail di kanan gate ialah bahan mentah, bukan bukti lulus.</p>
+  <div class="tl">
+    <div class="wk lepas">
+      <div class="rail"><span class="dot"></span></div>
+      <div class="body">
+        <div class="wkcard">
+          <div class="wkhead">
+            <h3>Minggu 5</h3>
+            <span class="rng">26 Okt – 01 Nov 2026</span>
+            <span class="tag lepas">lepas</span>
+          </div>
+          <p class="sem">Seminar 3 (Fri 30 Oct): Using AI research tools ethically; Chapter 2 - Literature Review &amp; reference tool</p>
+          <div class="gate">
+            <span class="gk">Gate</span>
+            <p>Order placed (screenshot kept) - design pack done - e-paper shows text - BLE link tested on a dev board</p>
+            <span class="ev">Output 127 dok + 23 kod · Report 1</span>
+          </div>
+          <ul class="focus"><li class="">Confirm the RFID module is the 919-923 MHz variant before paying; place the order (local stock).</li><li class="">Produce the design pack: storyboard, system architecture, scan sequence, wireframes.</li><li class="">Install PlatformIO + ESP-IDF; smoke test: e-paper text, Hall sensor read.</li><li class="">Draft Chapter 2 (literature review) and a proper APA reference list.</li><li class="">Send figures + three closed questions to the supervisor.</li></ul>
+          <p class="ev" style="margin:9px 0 0">fail terbaru: 04 Nov</p>
+        </div>
+      </div>
+    </div>
+    <div class="wk lepas">
+      <div class="rail"><span class="dot"></span></div>
+      <div class="body">
+        <div class="wkcard">
+          <div class="wkhead">
+            <h3>Minggu 6</h3>
+            <span class="rng">02–08 Nov 2026</span>
+            <span class="tag lepas">lepas</span>
+          </div>
+          <p class="sem">No seminar scheduled</p>
+          <div class="gate">
+            <span class="gk">Gate</span>
+            <p>BLE link shows live data in the app - e-paper draws a status line - box v0 fits the parts</p>
+            <span class="ev">Output 10 dok + 28 kod</span>
+          </div>
+          <ul class="focus"><li class="">Firmware plumbing: UART driver stub, Hall ISR, e-paper render task, BLE GATT service.</li><li class="">Flutter skeleton: scan, connect, checklist list, read status over BLE.</li><li class="">Enclosure v0 modelled and printed; test fit with the dev board.</li><li class="">Finish Chapter 2; outline Chapter 3.</li></ul>
+          <p class="ev" style="margin:9px 0 0">fail terbaru: 09 Nov</p>
+        </div>
+      </div>
+    </div>
+    <div class="wk kini">
+      <div class="rail"><span class="dot"></span></div>
+      <div class="body">
+        <div class="wkcard">
+          <div class="wkhead">
+            <h3>Minggu 7</h3>
+            <span class="rng">09–15 Nov 2026</span>
+            <span class="tag kini">minggu ini</span>
+          </div>
+          <p class="sem">Seminar 4 (Fri 13 Nov): Chapter 3 - Methodology</p>
+          <div class="gate">
+            <span class="gk">Gate</span>
+            <p>One tag read in open air, &gt;= 95% of 100 trials, logged to CSV</p>
+            <span class="ev">Output 1 dok</span>
+          </div>
+          <ul class="focus"><li class="">Parts should arrive: bring up the reader over UART at 919-923 MHz.</li><li class="">Single-tag read test: 100 trials, log success rate and per-read time to CSV.</li><li class="">Write Chapter 3 methodology for the seminar; insert Figure 1 and Figure 2.</li><li class="">Book the 3D printer slot for the enclosure v1.</li></ul>
+          <p class="ev" style="margin:9px 0 0">fail terbaru: 07 Nov</p>
+        </div>
+      </div>
+    </div>
+    <div class="wk akan">
+      <div class="rail"><span class="dot"></span></div>
+      <div class="body">
+        <div class="wkcard">
+          <div class="wkhead">
+            <h3>Minggu 7B</h3>
+            <span class="rng">16–22 Nov 2026</span>
+            <span class="tag">akan datang</span>
+          </div>
+          <p class="sem">SEMESTER BREAK - no classes (this is build time, not holiday)</p>
+          <div class="gate">
+            <span class="gk">Gate</span>
+            <p>First cavity recall figure recorded with method written down</p>
+            <span class="ev">Output 0 dok</span>
+          </div>
+          <ul class="focus"><li class="">This week is the schedule buffer: if parts were late, recovery happens here.</li><li class="">Cavity trial: 5 tags, 3 positions, first recall number recorded honestly.</li><li class="">CAD v1: antenna mount, liner placement on the outer shell only.</li><li class="">Liner sample test: does it reduce outside reads without killing inside reads?</li></ul>
+          <p class="ev" style="margin:9px 0 0">fail terbaru: —</p>
+        </div>
+      </div>
+    </div>
+    <div class="wk akan">
+      <div class="rail"><span class="dot"></span></div>
+      <div class="body">
+        <div class="wkcard">
+          <div class="wkhead">
+            <h3>Minggu 8</h3>
+            <span class="rng">23–29 Nov 2026</span>
+            <span class="tag">akan datang</span>
+          </div>
+          <p class="sem">Seminar 5 (Fri 27 Nov): Development Framework</p>
+          <div class="gate">
+            <span class="gk">Gate</span>
+            <p>&gt;= 90% recall with 5 tags -&gt; proceed; 70-90% -&gt; reposition once; &lt; 70% -&gt; switch to Plan B</p>
+            <span class="ev">Output 0 dok</span>
+          </div>
+          <ul class="focus"><li class="">Full pilot: 5 tags x 3 positions x 20 trials; latency distribution.</li><li class="">Confinement test: tags outside the bag at 0.5 m and 1.0 m.</li><li class="">Branch decision on the measured result (proceed / reposition once / plan B).</li><li class="">Zipper-triggered scan working automatically.</li></ul>
+          <p class="ev" style="margin:9px 0 0">fail terbaru: —</p>
+        </div>
+      </div>
+    </div>
+    <div class="wk akan">
+      <div class="rail"><span class="dot"></span></div>
+      <div class="body">
+        <div class="wkcard">
+          <div class="wkhead">
+            <h3>Minggu 9</h3>
+            <span class="rng">30 Nov – 06 Dis 2026</span>
+            <span class="tag">akan datang</span>
+          </div>
+          <p class="sem">Seminar 6 (Fri 4 Dec): Prototype Design (UI/UX)</p>
+          <div class="gate">
+            <span class="gk">Gate</span>
+            <p>End-to-end run succeeds 5 times in a row without a restart</p>
+            <span class="ev">Output 0 dok</span>
+          </div>
+          <ul class="focus"><li class="">End-to-end integration: zip -&gt; scan -&gt; E-paper + app notification.</li><li class="">Polish wireframes to what the seminar gives feedback on; finalise screens.</li><li class="">Enclosure v1 with liner and antenna mount, printed and fitted.</li></ul>
+          <p class="ev" style="margin:9px 0 0">fail terbaru: —</p>
+        </div>
+      </div>
+    </div>
+    <div class="wk akan">
+      <div class="rail"><span class="dot"></span></div>
+      <div class="body">
+        <div class="wkcard">
+          <div class="wkhead">
+            <h3>Minggu 10</h3>
+            <span class="rng">07–13 Dis 2026</span>
+            <span class="tag">akan datang</span>
+          </div>
+          <p class="sem">No seminar scheduled</p>
+          <div class="gate">
+            <span class="gk">Gate</span>
+            <p>Results table complete; each figure traceable to a CSV or meter reading</p>
+            <span class="ev">Output 0 dok</span>
+          </div>
+          <ul class="focus"><li class="">Measure: 15-tag recall and latency (median and max).</li><li class="">Current profile: sleep uA, scan mA, events per day -&gt; compute endurance in days.</li><li class="">Usability test with 10 participants (SUS), record scores.</li><li class="">Every number written into one results table with its evidence file.</li></ul>
+          <p class="ev" style="margin:9px 0 0">fail terbaru: —</p>
+        </div>
+      </div>
+    </div>
+    <div class="wk akan">
+      <div class="rail"><span class="dot"></span></div>
+      <div class="body">
+        <div class="wkcard">
+          <div class="wkhead">
+            <h3>Minggu 11</h3>
+            <span class="rng">14–20 Dis 2026</span>
+            <span class="tag">akan datang</span>
+          </div>
+          <p class="sem">Seminar 7 (Fri 18 Dec): Innovatex (FYP Showcase) briefing</p>
+          <div class="gate">
+            <span class="gk">Gate</span>
+            <p>Full report draft complete; poster designed; demo script written</p>
+            <span class="ev">Output 0 dok</span>
+          </div>
+          <ul class="focus"><li class="">Writing week: full report draft, all chapters.</li><li class="">Poster content and layout; demo script (zip, wait, read).</li><li class="">Feature freeze from here - no new capability.</li></ul>
+          <p class="ev" style="margin:9px 0 0">fail terbaru: —</p>
+        </div>
+      </div>
+    </div>
+    <div class="wk akan">
+      <div class="rail"><span class="dot"></span></div>
+      <div class="body">
+        <div class="wkcard">
+          <div class="wkhead">
+            <h3>Minggu 12</h3>
+            <span class="rng">21–27 Dis 2026</span>
+            <span class="tag">akan datang</span>
+          </div>
+          <p class="sem">No seminar scheduled - deliverables must be closed this week</p>
+          <div class="gate">
+            <span class="gk">Gate</span>
+            <p>Everything staged and printed; demo rehearsed 3x; backup video recorded</p>
+            <span class="ev">Output 0 dok</span>
+          </div>
+          <ul class="focus"><li class="">Freeze. Bugs only, no features.</li><li class="">Slides, recorded 3-minute backup demo video, printed poster.</li><li class="">Rehearse the demo three times on the actual hardware.</li></ul>
+          <p class="ev" style="margin:9px 0 0">fail terbaru: —</p>
+        </div>
+      </div>
+    </div>
+    <div class="wk akan">
+      <div class="rail"><span class="dot"></span></div>
+      <div class="body">
+        <div class="wkcard">
+          <div class="wkhead">
+            <h3>Minggu 13</h3>
+            <span class="rng">28 Dis – 03 Jan 2027</span>
+            <span class="tag">akan datang</span>
+          </div>
+          <p class="sem">INNOVATEX - FYP Showcase (Fri 30 Dec, date TBC)</p>
+          <div class="gate">
+            <span class="gk">Gate</span>
+            <p>Demo runs on the day; backup video available if hardware fails</p>
+            <span class="ev">Output 0 dok</span>
+          </div>
+          <ul class="focus"><li class="">Showcase day: live demo and poster.</li><li class="">Bring spare tags, cables, power bank, printed slides.</li><li class="">Do not change the build on the morning of the showcase.</li></ul>
+          <p class="ev" style="margin:9px 0 0">fail terbaru: —</p>
+        </div>
+      </div>
+    </div>
+    <div class="wk akan">
+      <div class="rail"><span class="dot"></span></div>
+      <div class="body">
+        <div class="wkcard">
+          <div class="wkhead">
+            <h3>Minggu 14</h3>
+            <span class="rng">05–11 Jan 2027</span>
+            <span class="tag">akan datang</span>
+          </div>
+          <p class="sem">Listed in the official schedule (Fri 8 Jan 2027)</p>
+          <div class="gate">
+            <span class="gk">Gate</span>
+            <p>-</p>
+            <span class="ev">Output 0 dok</span>
+          </div>
+          <ul class="focus"><li class="">Buffer only. No new work.</li><li class="">Keep the prototype charged and intact in case of re-assessment.</li><li class="">Archive the final files; tidy the folder.</li></ul>
+          <p class="ev" style="margin:9px 0 0">fail terbaru: —</p>
+        </div>
+      </div>
+    </div></div>
+
+  <h2 class="sec">Kerja aktif dan tarikh penting</h2>
+  <p class="secnote">Tugasan disalin dari <code>crew/TASKBOARD.md</code>; tarikh dari
+    <code>crew/FACTS.md</code>. Kemas kini fail itu, jana semula, dan halaman ini ikut berubah.</p>
+  <div class="cols">
+    <div class="panel">
+      <div class="ph"><h3>Tugasan ikut batch</h3>
+        <span class="stamp">8 siap / 12</span></div>
+      <div class="pb"><div class="batch"><b>Batch 1</b> · 2026-11-07 · (audit asas sebelum Chapter 3)</div><div class="task"><span class="id">1-A</span>
+            <span class="t">Peta sitasi Chapter 2/3 + senarai claim tanpa sokongan<em>researcher · siap — 18 sitasi, 5 claim tanpa sokongan</em></span>
+            <span class="st siap">siap</span></div><div class="task"><span class="id">1-B</span>
+            <span class="t">Audit angka teknikal yang ada bukti vs yang belum diukur<em>builder · siap — 30 ada, 24 tiada</em></span>
+            <span class="st siap">siap</span></div><div class="task"><span class="id">1-C</span>
+            <span class="t">Skeletons Chapter 3 ikut template IIUM, setiap slot tanda sumber bukti<em>writer · siap — 11 seksyen, 7 boleh / 4 tersekat</em></span>
+            <span class="st siap">siap</span></div><div class="batch"><b>Batch 2</b> · 2026-11-07 · (arahan pensyarah: app Flutter didahulukan)</div><div class="task"><span class="id">2-A</span>
+            <span class="t">Laksana app Flutter v1 ikut `APP_SPEC.md` + buktikan `flutter analyze` 0 issue dan `flutter test` lulus<em>builder · siap — analyze 0 issue, 7/7 test lulus</em></span>
+            <span class="st siap">siap</span></div><div class="task"><span class="id">2-B</span>
+            <span class="t">Pasang Flutter SDK 3.47.9, jana projek `mobile_app_v1`, tulis `APP_SPEC.md` dari Figure 3<em>leader · siap</em></span>
+            <span class="st siap">siap</span></div><div class="task"><span class="id">2-C</span>
+            <span class="t">Sahkan semula analyze + test sendiri, build web, tangkap 4 skrin<em>leader · siap — bukti dalam `mobile_app_v1\screenshots\`</em></span>
+            <span class="st siap">siap</span></div><div class="task"><span class="id">2-D</span>
+            <span class="t">APK pada telefon sebenar + permintaan kebenaran runtime (permission_handler)<em>builder · brief — perlu telefon</em></span>
+            <span class="st brief">brief</span></div><div class="task"><span class="id">2-E</span>
+            <span class="t">Tambah platform iOS, kunci kebenaran Bluetooth dalam `Info.plist`, tulis `codemagic.yaml`<em>leader · siap — plist disahkan `plistlib`, bundle id `my.iium.bagsenseApp`</em></span>
+            <span class="st siap">siap</span></div><div class="task"><span class="id">2-F</span>
+            <span class="t">Cuba `flutter build apk --debug` atas mesin ini (Java 25 vs Gradle = risiko)<em>leader · siap — APK 145 MB, Java 25 tidak lawan Gradle. Gradle muat turun NDK + build-tools 36 + CMake (1193 s pertama)</em></span>
+            <span class="st siap">siap</span></div><div class="batch"><b>Batch 3</b> · tarikh belum ditetapkan · belum dihantar</div><div class="task"><span class="id">3-A</span>
+            <span class="t">Draf penuh Chapter 3 (docx + PDF)<em>writer · brief</em></span>
+            <span class="st brief">brief</span></div><div class="task"><span class="id">3-B</span>
+            <span class="t">Skrip ujian single-tag + templat CSV 100 trials<em>builder · brief</em></span>
+            <span class="st brief">brief</span></div><div class="task"><span class="id">3-C</span>
+            <span class="t">Kira power budget dengan nilai datasheet, tandakan yang tiada<em>builder · brief</em></span>
+            <span class="st brief">brief</span></div></div>
+    </div>
+    <div>
+      <div class="panel">
+        <div class="ph"><h3>Tarikh penting</h3><span class="stamp">hari ini 10 Nov 26</span></div>
+        <div class="pb"><div class="ms next"><span class="d">13 Nov 26</span><span class="l">Seminar 4 (Chapter 3 Methodology)</span><span class="n soon">3 hari</span></div><div class="ms "><span class="d">22 Nov 26</span><span class="l">Cuti semester</span><span class="n ">12 hari</span></div><div class="ms "><span class="d">27 Nov 26</span><span class="l">Seminar 5 (Development Framework)</span><span class="n ">17 hari</span></div><div class="ms "><span class="d">04 Dec 26</span><span class="l">Seminar 6 (Prototype Design UI/UX)</span><span class="n ">24 hari</span></div><div class="ms "><span class="d">18 Dec 26</span><span class="l">Seminar 7 (Innovatex briefing)</span><span class="n ">38 hari</span></div><div class="ms "><span class="d">25 Dec 26</span><span class="l">Deliverables tutup</span><span class="n ">45 hari</span></div><div class="ms "><span class="d">30 Dec 26</span><span class="l">INNOVATEX showcase</span><span class="n ">50 hari</span></div></div>
+      </div>
+      <div class="panel" style="margin-top:14px">
+        <div class="ph"><h3>Tersekat — perlu Adam</h3>
+          <span class="stamp">3 item</span></div>
+        <div class="pb">
+          <div class="blk"><b>Gate Week 6 (BLE live, e-paper, box v0)</b><span>Tiada fail bukti langsung dalam `Week06\Output`. Perlu hardware atau tangkap skrin.</span></div><div class="blk"><b>Single-tag read 100 trials</b><span>Perlu reader fizikal. Belum sampai.</span></div><div class="blk"><b>Sign-off SV untuk Seminar 4</b><span>Manusia.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="sec">Skop dan pelan sandaran</h2>
+  <p class="secnote">Spesifikasi terkunci dan Plan B/C disalin dari pelan induk — ini yang
+    menghalang keputusan panik pada minggu ke-12.</p>
+  <div class="cols">
+    <div class="panel">
+      <div class="ph"><h3>Spesifikasi terkunci</h3></div>
+      <div class="pb"><dl class="kv">
+        <dt>MCU</dt><dd>ESP32-S3</dd><dt>RFID</dt><dd>UHF, jalur 919–923 MHz (bukan 865–868 — proposal lama sudah dibetulkan)</dd><dt>Display</dt><dd>E-paper</dd><dt>App</dt><dd>Flutter</dd><dt>Objectives</dt><dd>4 (bukan 5)</dd><dt>Kategori projek</dt><dd>IoT / Embedded (bukan AI)</dd>
+      </dl>
+      <p class="secnote" style="margin:0">Ubah hanya dengan kelulusan penyelia.</p></div>
+    </div>
+    <div>
+      <div class="plan" style="margin-bottom:12px"><h3>Plan B</h3><p>Demo aliran penuh guna simpanan tag yang dijana firmware (bukan bacaan sebenar) untuk menunjukkan app + e-paper + trigger zipper berfungsi, dan laporkan ujian RF sebagai "preliminary characterisation" dengan data yang ada. Nyatakan dengan jujur dalam laporan. Panel FYP1 lebih hormat pada had yang diukur daripada angka yang direka.</p></div><div class="plan" style="margin-bottom:12px"><h3>Plan C</h3><p>Tukar fokus daripada "scan seluruh cavity" kepada "scan satu poket hadapan" (contohnya poket laptop/tablet). Skop kecil yang berfungsi mengalahkan skop besar yang gagal, dan masih menjawab soalan penyelia: bolehkah UHF baca tag tanpa line of sight dalam fabrik?</p></div>
+    </div>
+  </div>
+
+  <div class="caveat">
+    <h3>Apa yang halaman ini tak tahu</h3>
+    <p>Semua nombor di atas dijana skrip dari fail: kotak semak dalam <code>WeekNN/README.md</code>,
+      jadual dalam <code>crew/TASKBOARD.md</code>, tarikh dalam <code>crew/FACTS.md</code>, dan
+      bilangan fail dalam <code>Report/</code> dan <code>Output/</code>. Kalau sesuatu sudah dibuat
+      tetapi kotak belum ditanda, ia tetap dikira belum.</p>
+    <p>Jana semula: <code>python tracker/build_tracker.py</code> ·
+      papar hidup: <code>python tracker/build_tracker.py --serve</code> → http://127.0.0.1:9310</p>
+  </div>
+
+  <footer>
+    <span>Ahmad Adam Hakimi bin Naeman, matric 2418711, AI specialisation · Amru Hazem bin Ahmad Tarmizi, matric 2419467 · BICS 4321 FYP1 · IIUM KICT</span>
+    <span>Dijana 2026-11-10 00:26 dari D:\IIUM\FYP</span>
+  </footer>
+</div>
+</body>
+</html>
