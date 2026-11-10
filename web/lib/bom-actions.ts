@@ -2,9 +2,9 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import { getSupabase } from "@/lib/supabase/server";
 import { getViewer } from "@/lib/auth";
-import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Viewer } from "@/lib/types";
 
 const str = (fd: FormData, k: string) => {
@@ -29,27 +29,34 @@ const done = (msg: string) => {
 };
 const fail = (msg: string) => redirect(`/barang?err=${encodeURIComponent(msg)}`);
 
-/** Tambah atau kemas kini satu barang. */
-export async function saveItem(fd: FormData) {
+/** Tambah / kemas kini satu baris BOM. */
+export async function saveBom(fd: FormData) {
   const g = await guard();
   if ("error" in g) return fail(g.error);
 
-  const id = str(fd, "id") || `i-${Date.now().toString(36)}`;
+  const id = str(fd, "id") || `bom-${Date.now().toString(36)}`;
   const name = str(fd, "name");
-  if (!name) return fail("Nama barang wajib diisi.");
+  if (!name) return fail("Nama komponen wajib diisi.");
 
   const qtyRaw = Number.parseInt(str(fd, "qty") || "1", 10);
   const qty = Number.isFinite(qtyRaw) && qtyRaw > 0 ? qtyRaw : 1;
+  const priceRaw = Number.parseFloat(str(fd, "unit_price").replace(",", "."));
+  const unit_price = Number.isFinite(priceRaw) && priceRaw >= 0 ? priceRaw : null;
 
-  const { error } = await g.supabase.from("items").upsert(
+  const allowed = ["belum", "order", "sampai", "batal"];
+  const status = allowed.includes(str(fd, "status")) ? str(fd, "status") : "belum";
+
+  const { error } = await g.supabase.from("bom").upsert(
     {
       id,
       name,
-      category: str(fd, "category") || null,
-      tag_epc: str(fd, "tag_epc") || null,
+      spec: str(fd, "spec") || null,
       qty,
+      unit_price,
+      seller: str(fd, "seller") || null,
+      url: str(fd, "url") || null,
+      status,
       note: str(fd, "note") || null,
-      baggage: str(fd, "baggage") || "utama",
       ord: Number.parseInt(str(fd, "ord") || "0", 10) || 0,
       updated_at: new Date().toISOString(),
       updated_by: g.viewer.email,
@@ -59,22 +66,40 @@ export async function saveItem(fd: FormData) {
 
   if (error) {
     const hint = /does not exist|schema cache/i.test(error.message)
-      ? " — jalankan migrasi web/supabase/migrations/2026-11-10_items.sql."
+      ? " — jalankan migrasi web/supabase/migrations/2026-11-10_bom.sql."
       : "";
     return fail(`${error.message}${hint}`);
   }
-  return done(str(fd, "id") ? "Barang dikemas kini." : "Barang ditambah.");
+  return done(str(fd, "id") ? "Komponen dikemas kini." : "Komponen ditambah.");
 }
 
-/** Padam satu barang. */
-export async function deleteItem(fd: FormData) {
+/** Tukar status laju: belum → order → sampai. */
+export async function setBomStatus(fd: FormData) {
   const g = await guard();
   if ("error" in g) return fail(g.error);
 
   const id = str(fd, "id");
-  if (!id) return fail("ID barang tiada.");
+  const status = str(fd, "status");
+  if (!id || !["belum", "order", "sampai", "batal"].includes(status)) {
+    return fail("Status tidak sah.");
+  }
 
-  const { error } = await g.supabase.from("items").delete().eq("id", id);
+  const { error } = await g.supabase
+    .from("bom")
+    .update({ status, updated_at: new Date().toISOString(), updated_by: g.viewer.email })
+    .eq("id", id);
   if (error) return fail(error.message);
-  return done("Barang dipadam.");
+  return done(`Status: ${status}.`);
+}
+
+export async function deleteBom(fd: FormData) {
+  const g = await guard();
+  if ("error" in g) return fail(g.error);
+
+  const id = str(fd, "id");
+  if (!id) return fail("ID tiada.");
+
+  const { error } = await g.supabase.from("bom").delete().eq("id", id);
+  if (error) return fail(error.message);
+  return done("Komponen dipadam.");
 }

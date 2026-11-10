@@ -5,7 +5,7 @@ import { readLocalBatches, readLocalTasks, type LocalBatch, type LocalRow } from
 import { batchOf } from "./batches";
 import { fmtRange, klStamp, todayIso } from "./date";
 import type {
-  Batch, BlockedItem, Evidence, Item, FocusItem, Milestone, Plan, Spec, Task, Tracker, Week, WeekState,
+  Batch, BlockedItem, BomItem, Evidence, FocusItem, Milestone, Plan, Spec, Task, Tracker, Week, WeekState,
 } from "./types";
 
 type SnapWeek = Omit<Week, "state" | "focus" | "evidence"> & {
@@ -298,17 +298,17 @@ export function computeStats(t: Tracker): Stats {
 }
 
 /**
- * Senarai barang. Hanya wujud bila Supabase disambung — mod snapshot tiada
+ * Senarai beli komponen (BOM). Hanya wujud bila Supabase disambung — mod snapshot tiada
  * tempat menyimpan inventori, jadi ia pulangkan senarai kosong (bukan data palsu).
  */
-export async function getItems(): Promise<Item[]> {
+export async function getBom(): Promise<BomItem[]> {
   const supabase = await getSupabase();
   if (!supabase) return [];
   const { data, error } = await supabase
-    .from("items")
-    .select("id, name, category, tag_epc, qty, note, baggage, ord")
+    .from("bom")
+    .select("id, name, spec, qty, unit_price, seller, url, status, note, ord")
     .order("ord", { ascending: true })
     .order("name", { ascending: true });
   if (error) return [];
-  return (data ?? []) as Item[];
+  return (data ?? []) as BomItem[];
 }

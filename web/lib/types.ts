@@ -116,3 +116,17 @@ export type Item = {
   baggage: string | null;
   ord: number;
 };
+
+/** Satu baris senarai beli komponen (BOM) — tab Pembelian. */
+export type BomItem = {
+  id: string;
+  name: string;
+  spec: string | null;
+  qty: number;
+  unit_price: number | null;
+  seller: string | null;
+  url: string | null;
+  status: "belum" | "order" | "sampai" | "batal";
+  note: string | null;
+  ord: number;
+};
