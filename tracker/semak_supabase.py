@@ -18,6 +18,20 @@ import urllib.request
 EXPECT = {"weeks": 11, "focus_items": 40, "tasks": 12, "milestones": 7}
 
 
+def check_url(url: str):
+    """Sekat URL contoh / salah bentuk sebelum buang masa dengan DNS."""
+    u = (url or "").strip().rstrip("/")
+    if not u.startswith("https://"):
+        return "URL mesti mula dengan https://"
+    if ".supabase.co" not in u:
+        return "URL mesti berakhir dengan .supabase.co"
+    if any(x in u.lower() for x in ("xxxx", "abcdefgh", "project-ref", "ganti")):
+        return "URL tu masih CONTOH, bukan projek kau. Ambil dari dashboard: Settings - API - Project URL"
+    if "/rest/" in u or "/dashboard/" in u:
+        return "ambil Project URL sahaja (https://<ref>.supabase.co), jangan endpoint atau URL dashboard"
+    return None
+
+
 def get(url: str, key: str, path: str):
     req = urllib.request.Request(
         f"{url}/rest/v1/{path}",
@@ -42,6 +56,10 @@ def main() -> int:
 
     if not url or not key:
         print("TAK SAMBUNG: SUPABASE_URL / SUPABASE_SERVICE_KEY tiada dalam env.")
+        return 1
+    bad = check_url(url)
+    if bad:
+        print(f"TAK SAMBUNG: {bad}")
         return 1
 
     print(f"projek: {url}")

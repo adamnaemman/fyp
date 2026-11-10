@@ -130,6 +130,20 @@ XOR = {
 }
 
 
+def check_url(url: str):
+    """Sekat URL contoh / salah bentuk sebelum buang masa dengan DNS."""
+    u = (url or "").strip().rstrip("/")
+    if not u.startswith("https://"):
+        return "URL mesti mula dengan https://"
+    if ".supabase.co" not in u:
+        return "URL mesti berakhir dengan .supabase.co"
+    if any(x in u.lower() for x in ("xxxx", "abcdefgh", "project-ref", "ganti")):
+        return "URL tu masih CONTOH, bukan projek kau. Ambil dari dashboard: Settings - API - Project URL"
+    if "/rest/" in u or "/dashboard/" in u:
+        return "ambil Project URL sahaja (https://<ref>.supabase.co), jangan endpoint atau URL dashboard"
+    return None
+
+
 def post(url: str, key: str, table: str, rows: list[dict], on_conflict: str):
     req = urllib.request.Request(
         f"{url}/rest/v1/{table}?on_conflict={on_conflict}",
@@ -162,6 +176,10 @@ def push(snap: dict, dry: bool = False) -> int:
     if not (url and key):
         print("RALAT: set SUPABASE_URL dan SUPABASE_SERVICE_KEY dulu.")
         print("       (export di shell, jangan tulis dalam fail yang masuk git)")
+        return 2
+    bad = check_url(url)
+    if bad:
+        print(f"RALAT URL: {bad}")
         return 2
 
     weeks = [{k: v for k, v in w.items() if k not in ("focus", "evidence")} for w in snap["weeks"]]
