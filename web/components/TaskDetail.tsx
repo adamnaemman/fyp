@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { fmtRange } from "@/lib/date";
 import type { Task } from "@/lib/types";
 import TaskForm from "./TaskForm";
+import { deleteTask } from "@/lib/task-actions";
 
 /**
  * Panel butiran satu tugasan. Dibuka dengan klik chip kalendar atau bar Gantt.
@@ -25,6 +26,13 @@ export default function TaskDetail({
     window.addEventListener("keydown", esc);
     return () => window.removeEventListener("keydown", esc);
   }, [onClose]);
+
+  const [delState, delAction, delPending] = useActionState(deleteTask, null);
+  const [confirm, setConfirm] = useState(false);
+
+  useEffect(() => {
+    if (delState?.ok) onClose();
+  }, [delState, onClose]);
 
   const when =
     task.start_date && task.end_date
@@ -71,6 +79,28 @@ export default function TaskDetail({
 
         <div className="drawer-f">
           <TaskForm task={task} canWrite={canWrite} compact onSaved={onClose} />
+
+          {canWrite && (
+            <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--line)" }}>
+              {!confirm ? (
+                <button type="button" className="btn danger" onClick={() => setConfirm(true)}>
+                  Padam tugasan
+                </button>
+              ) : (
+                <form action={delAction} style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+                  <input type="hidden" name="id" value={task.id} />
+                  <span style={{ fontSize: 12.5, color: "var(--dim)" }}>Padam terus?</span>
+                  <button className="btn danger" type="submit" disabled={delPending}>
+                    {delPending ? "memadam…" : "Ya, padam"}
+                  </button>
+                  <button type="button" className="btn" onClick={() => setConfirm(false)}>
+                    Batal
+                  </button>
+                </form>
+              )}
+              {delState && !delState.ok && <p className="errline">{delState.message}</p>}
+            </div>
+          )}
         </div>
       </aside>
     </>

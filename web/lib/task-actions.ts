@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { getSupabase, supabaseConfigured } from "./supabase/server";
 import { getViewer } from "./auth";
-import { newTaskId, upsertLocalTask } from "./local-store";
+import { newTaskId, removeLocalTask, upsertLocalTask } from "./local-store";
 import type { ActionResult, Task, TaskStatus } from "./types";
 
 const STATUSES: TaskStatus[] = ["brief", "jalan", "semak", "siap", "sekat"];
@@ -116,4 +116,40 @@ export async function saveTask(
   }
   refresh();
   return { ok: true, message: `${id ? "Tugasan dikemas kini" : "Tugasan baru disimpan"} (setempat).` };
+}
+
+/**
+ * Padam satu tugasan. Guard sama seperti saveTask — tiada jalan pintas.
+ */
+export async function deleteTask(
+  _prev: ActionResult | null,
+  fd: FormData,
+): Promise<ActionResult> {
+  const id = str(fd, "id");
+  if (!id) return { ok: false, message: "ID tugasan tiada." };
+
+  if (supabaseConfigured) {
+    const supabase = await getSupabase();
+    if (!supabase) return { ok: false, message: "Supabase tidak dapat dihubungi — tiada perubahan." };
+
+    const viewer = await getViewer();
+    if (!viewer) return { ok: false, message: "Baca sahaja: tiada sesi. Log masuk sebagai ahli." };
+    if (!viewer.canWrite) {
+      return { ok: false, message: `Baca sahaja: akaun ${viewer.role} tiada kebenaran memadam.` };
+    }
+
+    const { error } = await supabase.from("tasks").delete().eq("id", id);
+    if (error) return { ok: false, message: `Gagal padam: ${error.message}` };
+    refresh();
+    return { ok: true, message: "Tugasan dipadam." };
+  }
+
+  try {
+    await removeLocalTask(id);
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "ralat tidak diketahui";
+    return { ok: false, message: `Gagal padam fail setempat: ${msg}` };
+  }
+  refresh();
+  return { ok: true, message: "Tugasan dipadam (setempat)." };
 }

@@ -40,3 +40,12 @@ export async function upsertLocalTask(task: Task): Promise<void> {
 export function newTaskId(): string {
   return `u-${Date.now().toString(36)}`;
 }
+
+/** Buang satu tugasan dari stok setempat. */
+export async function removeLocalTask(id: string): Promise<void> {
+  const rows = await readLocalTasks();
+  const left = rows.filter((r) => r.id !== id);
+  await fs.mkdir(path.dirname(FILE), { recursive: true });
+  await fs.writeFile(FILE, `${JSON.stringify(left, null, 1)}
+`, "utf8");
+}

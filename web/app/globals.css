@@ -415,3 +415,6 @@ footer{margin-top:38px;padding-top:18px;border-top:1px solid var(--line);color:v
   .tform,.tform.compact{grid-template-columns:1fr}
   .drawer{width:100vw;border-left:0}
 }
+.btn.danger{border-color:rgba(248,113,113,.45);color:#f7a1a1}
+.btn.danger:hover{border-color:var(--red);color:#ffb3b3}
+.errline{font-size:12px;color:#f7a1a1;margin:8px 0 0}
