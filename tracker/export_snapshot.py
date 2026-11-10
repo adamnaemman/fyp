@@ -144,7 +144,8 @@ def check_url(url: str):
     return None
 
 
-def post(url: str, key: str, table: str, rows: list[dict], on_conflict: str):
+def post(url: str, key: str, table: str, rows: list[dict], on_conflict: str,
+         prefer: str = "resolution=merge-duplicates,return=minimal"):
     req = urllib.request.Request(
         f"{url}/rest/v1/{table}?on_conflict={on_conflict}",
         data=json.dumps(rows).encode("utf-8"),
@@ -153,7 +154,7 @@ def post(url: str, key: str, table: str, rows: list[dict], on_conflict: str):
             "apikey": key,
             "Authorization": f"Bearer {key}",
             "Content-Type": "application/json",
-            "Prefer": "resolution=merge-duplicates,return=minimal",
+            "Prefer": prefer,
         },
     )
     with urllib.request.urlopen(req, timeout=45) as r:
@@ -183,14 +184,23 @@ def push(snap: dict, dry: bool = False) -> int:
         return 2
 
     weeks = [{k: v for k, v in w.items() if k not in ("focus", "evidence")} for w in snap["weeks"]]
-    focus = [dict(f, week_id=w["id"]) for w in snap["weeks"] for f in w["focus"]]
-    evidence = [dict(e, week_id=w["id"]) for w in snap["weeks"] if (e := w["evidence"])]
-    # status gate milik manusia: jangan hantar semula masa sync
+    # snapshot guna 'start'/'end' (untuk JSON web); jadual guna 'start_date'/'end_date'
     for w in weeks:
+        w["start_date"] = w.pop("start", None)
+        w["end_date"] = w.pop("end", None)
+        # status gate milik manusia: jangan hantar semula masa sync
         w.pop("gate_status", None)
         w.pop("gate_note", None)
+
+    # 'done' juga milik manusia — biar default false masa insert, jangan timpa tanda orang
+    focus = [{k: v for k, v in f.items() if k != "done"} | {"week_id": w["id"]}
+             for w in snap["weeks"] for f in w["focus"]]
+    evidence = [dict(e, week_id=w["id"]) for w in snap["weeks"] if (e := w["evidence"])]
+    task_status = {t["id"]: t["status"] for t in snap["tasks"]}
     for t in snap["tasks"]:
-        t.pop("status", None)  # sama untuk status tugasan
+        t.pop("status", None)  # status tugasan milik manusia selepas import pertama
+        t.pop("updated_at", None)
+        t.pop("updated_by", None)
 
     payloads = {
         "weeks": weeks,
@@ -209,6 +219,21 @@ def push(snap: dict, dry: bool = False) -> int:
         return 0
 
     rc = 0
+    # LANGKAH 1 — tasks: masukkan yang BARU sahaja bersama status dari TASKBOARD.
+    # resolution=ignore-duplicates = baris sedia ada tak disentuh, jadi tanda manusia selamat.
+    task_with_status = [dict(t, status=task_status[t["id"]]) for t in snap["tasks"]]
+    if task_with_status:
+        try:
+            st = post(url, key, "tasks", task_with_status, "id",
+                      "resolution=ignore-duplicates,return=minimal")
+            print(f"  tasks: {len(task_with_status)} baris → HTTP {st} (baru sahaja, status asal)")
+        except urllib.error.HTTPError as e:
+            print(f"  tasks (import status): GAGAL {e.code} {e.read()[:200]!r}")
+            rc = 1
+        except Exception as e:  # noqa: BLE001
+            print(f"  tasks (import status): GAGAL {e}")
+            rc = 1
+
     for table, rows in payloads.items():
         if not rows:
             continue
