@@ -6,11 +6,14 @@ import { usePathname } from "next/navigation";
 const DOC_URL =
   "https://docs.google.com/document/d/1rQ98B42OooaBzW2EFtY4l-BTmJenaSrqJXd2mtJ6JD4/edit?usp=sharing";
 
+const REPO_URL = "https://github.com/adamnaemman/fyp";
+
 const NAV = [
   { href: "/", label: "Progres", hint: "progres mingguan" },
   { href: "/gantt", label: "Gantt", hint: "susunan tugas ikut tarikh" },
   { href: "/calendar", label: "Kalendar", hint: "tugasan ikut hari" },
   { href: DOC_URL, label: "Laporan", hint: "Google Doc — sumber utama", external: true },
+  { href: REPO_URL, label: "Repo", hint: "kod di GitHub", external: true },
 ];
 
 export default function Sidebar() {
