@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import snapshot from "@/data/snapshot.json";
 import { getSupabase } from "./supabase/server";
 import { readLocalTasks } from "./local-store";
@@ -85,6 +86,9 @@ async function fromSnapshot(): Promise<Tracker> {
  * Kegagalan rangkaian TIDAK boleh memaparkan halaman kosong — ia mesti degradasi.
  */
 export async function getTracker(): Promise<Tracker> {
+  // Next 16 (cacheComponents): baca masa/DB mesti berlaku pada masa permintaan, bukan
+  // semasa prerender. connection() menandakan halaman ini dinamik sebelum new Date() dipanggil.
+  await connection();
   const fallback = await fromSnapshot();
   const supabase = await getSupabase();
   if (!supabase) return fallback;

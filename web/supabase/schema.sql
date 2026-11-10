@@ -64,9 +64,17 @@ create table if not exists public.tasks (
   status     text not null default 'brief'
              check (status in ('brief', 'jalan', 'semak', 'siap', 'sekat')),
   detail     text,
+  start_date date,                                 -- NULL = belum dijadualkan (jangan reka)
+  end_date   date,                                 -- NULL = belum dijadualkan (jangan reka)
   updated_at timestamptz not null default now(),
   updated_by text
 );
+
+-- DB yang sudah wujud: dua kolum tarikh per-tugasan ditambah kemudian (tab Gantt/Kalendar).
+-- Selamat dijalankan berulang; tiada tarikh diisi di sini.
+alter table public.tasks add column if not exists start_date date;
+alter table public.tasks add column if not exists end_date   date;
+create index if not exists tasks_start_idx on public.tasks (start_date);
 
 create table if not exists public.milestones (
   id     text primary key,

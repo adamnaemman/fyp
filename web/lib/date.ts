@@ -76,8 +76,3 @@ export function shiftMonth(ym: string, delta: number): string {
   const t = new Date(Date.UTC(+ym.slice(0, 4), +ym.slice(5, 7) - 1 + delta, 1));
   return `${t.getUTCFullYear()}-${String(t.getUTCMonth() + 1).padStart(2, "0")}`;
 }
-
-/** Tarikh akhir tugas: utamakan due_date, terima end_date untuk keserasian. */
-export function taskDue(t: { due_date?: string | null; end_date?: string | null }): string | null {
-  return t.due_date ?? t.end_date ?? null;
-}

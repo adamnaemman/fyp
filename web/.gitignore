@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# storan setempat mod snapshot (ditulis oleh Server Action bila Supabase tiada)
+/data/local_tasks.json

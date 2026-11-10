@@ -1,15 +1,27 @@
--- Tarikh per-task untuk Gantt + Kalendar
--- Jalankan dalam Supabase → SQL Editor. Selamat dijalankan berulang.
+-- Tarikh per-tugasan untuk tab Gantt + Kalendar
+-- Jalankan dalam Supabase → SQL Editor → New query → Run. Selamat dijalankan berulang.
+--
+-- PENTING: skrip ini TIDAK mengisi sebarang tarikh.
+-- Tugasan yang belum dijadualkan kekal NULL dan muncul dalam senarai
+-- "Belum dijadualkan" dalam app. Tiada tarikh batch, tiada "+6 hari", tiada hari ini —
+-- tarikh hanya wujud bila Adam menaipnya.
 
 alter table public.tasks add column if not exists start_date date;
-alter table public.tasks add column if not exists due_date   date;
+alter table public.tasks add column if not exists end_date   date;
 
--- Isi tarikh dari batch untuk baris yang belum ada (anggaran: batch_date → batch_date+6)
-update public.tasks
-set start_date = coalesce(start_date, batch_date),
-    due_date   = coalesce(due_date, batch_date + 6)
-where batch_date is not null
-  and (start_date is null or due_date is null);
+comment on column public.tasks.start_date is 'Tarikh mula pilihan. NULL = belum dijadualkan.';
+comment on column public.tasks.end_date   is 'Tarikh tamat pilihan. NULL = belum dijadualkan.';
 
--- Semak
-select id, task, start_date, due_date from public.tasks order by batch_no, id;
+create index if not exists tasks_start_idx on public.tasks (start_date);
+
+-- Draf awal ciri ini memakai nama kolum `due_date`. Skema akhir guna `end_date`.
+-- Kalau kolum `due_date` tercipta pada DB ini dan masih kosong, ia boleh dibuang.
+-- Semak dulu:
+--   select count(*) from public.tasks where due_date is not null;
+-- Kalau hasilnya 0:
+-- alter table public.tasks drop column if exists due_date;
+
+-- Semak selepas jalan:
+select id, task, status, start_date, end_date
+from public.tasks
+order by batch_no, id;

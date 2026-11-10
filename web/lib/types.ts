@@ -45,7 +45,6 @@ export type Task = {
   detail: string;
   /** untuk Gantt + Kalendar; null/tiada = belum dijadualkan (jangan reka tarikh) */
   start_date?: string | null;
-  due_date?: string | null;
   end_date?: string | null;
 };
 
