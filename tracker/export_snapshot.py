@@ -88,6 +88,11 @@ def build_snapshot() -> dict:
                 "status": r["status"] if r["status"] in
                           ("brief", "jalan", "semak", "siap", "sekat") else "brief",
                 "detail": r["detail"],
+                # tarikh per-task: anggaran dari tarikh batch (mula = batch, akhir = +6 hari)
+                "start_date": b["date"] if re.match(r"^\d{4}-\d{2}-\d{2}$", b["date"] or "") else None,
+                "due_date": (date.fromisoformat(b["date"]).toordinal() + 6) and
+                            date.fromordinal(date.fromisoformat(b["date"]).toordinal() + 6).isoformat()
+                            if re.match(r"^\d{4}-\d{2}-\d{2}$", b["date"] or "") else None,
             })
 
     milestones = [

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Sidebar from "@/components/Sidebar";
 
 export const metadata: Metadata = {
   title: "BagSense — Progres FYP1",
@@ -10,7 +11,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ms">
-      <body>{children}</body>
+      <body>
+        <div className="app">
+          <Sidebar />
+          <div className="shell">{children}</div>
+        </div>
+      </body>
     </html>
   );
 }

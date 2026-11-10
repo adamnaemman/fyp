@@ -43,7 +43,13 @@ export type Task = {
   task: string;
   status: TaskStatus;
   detail: string;
+  /** untuk Gantt + Kalendar; null/tiada = belum dijadualkan (jangan reka tarikh) */
+  start_date?: string | null;
+  due_date?: string | null;
+  end_date?: string | null;
 };
+
+export type ActionResult = { ok: boolean; message: string };
 
 export type Milestone = {
   id: string;

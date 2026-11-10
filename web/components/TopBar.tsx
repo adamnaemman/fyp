@@ -13,10 +13,6 @@ export default function TopBar({
   return (
     <div className="top">
       <div className="wrap">
-        <div className="brand">
-          <i />
-          BagSense <small>FYP1 · BICS 4321</small>
-        </div>
         <span className={`badge ${mode === "supabase" ? "live" : "ro"}`}>
           {mode === "supabase" ? "supabase" : "snapshot"}
         </span>

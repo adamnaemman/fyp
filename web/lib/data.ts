@@ -1,5 +1,6 @@
 import snapshot from "@/data/snapshot.json";
 import { getSupabase } from "./supabase/server";
+import { readLocalTasks } from "./local-store";
 import { fmtRange, klStamp, todayIso } from "./date";
 import type {
   BlockedItem, Evidence, FocusItem, Milestone, Plan, Spec, Task, Tracker, Week, WeekState,
@@ -36,7 +37,23 @@ export function daysBetween(from: string, to: string): number {
   return Math.round((b - a) / 86_400_000);
 }
 
-function fromSnapshot(): Tracker {
+/** Tarikh tugas sentiasa ada sebagai `null` bila belum dijadualkan — jangan reka nilai. */
+function normTask(t: Task): Task {
+  return { ...t, start_date: t.start_date ?? null, end_date: t.end_date ?? null };
+}
+
+function fromSnapshotTasks(local: Task[]): Task[] {
+  const base = SNAP.tasks.map(normTask);
+  if (local.length === 0) return base;
+  const out = base.map((t) => {
+    const patch = local.find((l) => l.id === t.id);
+    return patch ? normTask({ ...t, ...patch }) : t;
+  });
+  for (const l of local) if (!out.some((t) => t.id === l.id)) out.push(normTask(l));
+  return out;
+}
+
+async function fromSnapshot(): Promise<Tracker> {
   return {
     mode: "snapshot",
     note: null,
@@ -52,7 +69,7 @@ function fromSnapshot(): Tracker {
       })),
       evidence: w.evidence ? { ...w.evidence, week_id: w.id } : null,
     })),
-    tasks: SNAP.tasks,
+    tasks: fromSnapshotTasks(await readLocalTasks()),
     milestones: SNAP.milestones.map((m, i) => ({ ...m, id: m.id ?? `ms-${i}`, ord: m.ord ?? i })),
     blocked: SNAP.blocked.map((b, i) => ({
       ...b, id: b.id ?? `blk-${i}`, resolved: Boolean(b.resolved),
@@ -68,7 +85,7 @@ function fromSnapshot(): Tracker {
  * Kegagalan rangkaian TIDAK boleh memaparkan halaman kosong — ia mesti degradasi.
  */
 export async function getTracker(): Promise<Tracker> {
-  const fallback = fromSnapshot();
+  const fallback = await fromSnapshot();
   const supabase = await getSupabase();
   if (!supabase) return fallback;
 
@@ -124,7 +141,7 @@ export async function getTracker(): Promise<Tracker> {
       generated: klStamp(),
       who: SNAP.who ?? [],
       weeks,
-      tasks: (tasksQ.data ?? []) as Task[],
+      tasks: ((tasksQ.data ?? []) as Task[]).map(normTask),
       milestones: (msQ.data ?? []) as Milestone[],
       blocked: (blkQ.data ?? []) as BlockedItem[],
       specs: (specQ.data ?? []) as Spec[],

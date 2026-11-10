@@ -239,3 +239,94 @@ footer{margin-top:38px;padding-top:18px;border-top:1px solid var(--line);color:v
   .top,.ring,.caveat,.gateopts,.tick,.banner{display:none}
   .card,.panel,.wkcard,.plan{border-color:#ccc;background:#fff}
 }
+
+/* ============ sidebar + shell ============ */
+.app{display:grid;grid-template-columns:212px 1fr;min-height:100vh}
+.shell{min-width:0}
+.side{position:sticky;top:0;height:100vh;background:var(--bg2);border-right:1px solid var(--line);
+  padding:18px 13px;display:flex;flex-direction:column;gap:20px}
+.side-brand{display:flex;align-items:center;gap:9px;color:var(--tx);font-weight:650;padding:0 4px}
+.side-brand i{width:8px;height:8px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 0 4px rgba(74,222,128,.14)}
+.side-brand em{display:block;font-style:normal;font:10.5px var(--mono);color:var(--dim2);
+  letter-spacing:.06em;margin-top:2px}
+.side-nav{display:grid;gap:3px}
+.side-link{display:grid;gap:1px;padding:8px 10px;border-radius:8px;border:1px solid transparent;color:var(--dim)}
+.side-link b{font-size:13px;font-weight:600;color:#c8d4e2}
+.side-link span{font-size:10.5px;color:var(--dim2)}
+.side-link:hover{background:var(--panel);border-color:var(--line)}
+.side-link.on{background:rgba(74,222,128,.07);border-color:rgba(74,222,128,.28)}
+.side-link.on b{color:var(--green)}
+.side-foot{margin-top:auto;font:10px var(--mono);color:var(--dim2);padding:0 4px;letter-spacing:.05em}
+
+/* ============ gantt ============ */
+.g-wrap{padding:8px 0 4px}
+.g-ticks{display:grid;grid-template-columns:230px 1fr;height:20px}
+.g-ticks .g-track{border-left:1px solid var(--line2)}
+.g-tick{position:absolute;top:0;height:20px;border-left:1px dashed var(--line2)}
+.g-tick i{font:9.5px var(--mono);font-style:normal;color:var(--dim2);padding-left:3px;white-space:nowrap}
+.g-now{position:absolute;top:0;height:20px;border-left:2px solid var(--amber)}
+.g-group{font:10px var(--mono);text-transform:uppercase;letter-spacing:.09em;color:var(--sky);
+  margin:12px 0 3px}
+.g-row{display:grid;grid-template-columns:230px 1fr;align-items:center;
+  padding:4px 0;border-bottom:1px solid #141c25;gap:0;min-height:46px}
+.g-row .g-label{min-width:0;padding-right:12px}
+.g-label b{display:block;font-size:12.4px;font-weight:600;color:#c8d4e2;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g-label em{display:block;font-style:normal;font:10px var(--mono);color:var(--dim2);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.g-track{position:relative;height:24px}
+.g-bar{position:absolute;top:5px;height:15px;border-radius:4px;background:#334155;
+  display:flex;align-items:center;overflow:hidden}
+.g-bar i{font:9px var(--mono);font-style:normal;text-transform:uppercase;letter-spacing:.05em;
+  padding-left:5px;color:#eaf2fb;white-space:nowrap}
+.g-bar.st-siap{background:rgba(74,222,128,.72)}
+.g-bar.st-jalan{background:rgba(251,191,36,.78)}
+.g-bar.st-semak{background:rgba(56,189,248,.72)}
+.g-bar.st-brief{background:#33415a}
+.g-bar.st-sekat{background:rgba(248,113,113,.78)}
+.g-bar.late{outline:1px solid var(--red);outline-offset:1px}
+
+/* ============ calendar ============ */
+.cal-nav{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-dow{font:9.5px var(--mono);text-transform:uppercase;letter-spacing:.08em;
+  color:var(--dim2);text-align:center;padding:0 0 3px}
+.cal-cell{min-height:74px;border:1px solid var(--line);border-radius:8px;background:var(--bg2);
+  padding:4px 5px;display:flex;flex-direction:column;gap:3px;overflow:hidden}
+.cal-cell.empty{background:transparent;border-color:transparent}
+.cal-cell.today{border-color:rgba(251,191,36,.45);background:rgba(251,191,36,.05)}
+.cal-day{font:10.5px var(--mono);color:var(--dim)}
+.cal-task{font-size:10.2px;line-height:1.25;border-radius:4px;padding:2px 4px;
+  background:#334155;color:#e6eef8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal-task.st-siap{background:rgba(74,222,128,.78);color:#07110c}
+.cal-task.st-jalan{background:rgba(251,191,36,.8);color:#1a1204}
+.cal-task.st-semak{background:rgba(56,189,248,.78);color:#04121c}
+.cal-task.st-sekat{background:rgba(248,113,113,.8);color:#1c0505}
+.cal-task.late{outline:1px solid var(--red)}
+.cal-more{font:9.5px var(--mono);color:var(--dim2);padding-left:2px}
+
+/* ============ tambah tugasan ============ */
+.addform{display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:10px;align-items:end;padding:8px 0}
+.addform label{display:grid;gap:4px;font:9.5px var(--mono);text-transform:uppercase;
+  letter-spacing:.08em;color:var(--dim2)}
+.addform input{padding:8px 10px;border-radius:7px;border:1px solid var(--line2);
+  background:#0b1119;color:var(--tx);font:13px inherit;min-width:0}
+.addform input:focus{outline:2px solid rgba(56,189,248,.3);border-color:var(--sky)}
+.addform .go{background:var(--green);color:#07110c;font-weight:650;border-radius:7px;
+  padding:9px 16px;font-size:13px;height:36px}
+.addform .go:hover{filter:brightness(1.06)}
+
+@media (max-width:900px){
+  .app{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;align-items:center;gap:12px;
+    overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:10px 12px}
+  .side-brand em{display:none}
+  .side-nav{display:flex;gap:4px}
+  .side-link span{display:none}
+  .side-foot{display:none}
+  .g-ticks,.g-row{grid-template-columns:120px 1fr}
+  .cal-cell{min-height:66px}
+  .addform{grid-template-columns:1fr 1fr}
+  .addform .go{grid-column:1 / -1}
+}

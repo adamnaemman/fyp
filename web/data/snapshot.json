@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-10 08:48",
+ "generated": "2026-11-10 11:13",
  "who": [
   "Ahmad Adam Hakimi bin Naeman, matric 2418711, AI specialisation",
   "Amru Hazem bin Ahmad Tarmizi, matric 2419467"
@@ -486,7 +486,9 @@
    "role": "researcher",
    "task": "Peta sitasi Chapter 2/3 + senarai claim tanpa sokongan",
    "status": "siap",
-   "detail": "siap — 18 sitasi, 5 claim tanpa sokongan"
+   "detail": "siap — 18 sitasi, 5 claim tanpa sokongan",
+   "start_date": "2026-11-07",
+   "due_date": "2026-11-13"
   },
   {
    "id": "1-B",
@@ -496,7 +498,9 @@
    "role": "builder",
    "task": "Audit angka teknikal yang ada bukti vs yang belum diukur",
    "status": "siap",
-   "detail": "siap — 30 ada, 24 tiada"
+   "detail": "siap — 30 ada, 24 tiada",
+   "start_date": "2026-11-07",
+   "due_date": "2026-11-13"
   },
   {
    "id": "1-C",
@@ -506,7 +510,9 @@
    "role": "writer",
    "task": "Skeletons Chapter 3 ikut template IIUM, setiap slot tanda sumber bukti",
    "status": "siap",
-   "detail": "siap — 11 seksyen, 7 boleh / 4 tersekat"
+   "detail": "siap — 11 seksyen, 7 boleh / 4 tersekat",
+   "start_date": "2026-11-07",
+   "due_date": "2026-11-13"
   },
   {
    "id": "2-A",
@@ -516,7 +522,9 @@
    "role": "builder",
    "task": "Laksana app Flutter v1 ikut `APP_SPEC.md` + buktikan `flutter analyze` 0 issue dan `flutter test` lulus",
    "status": "siap",
-   "detail": "siap — analyze 0 issue, 7/7 test lulus"
+   "detail": "siap — analyze 0 issue, 7/7 test lulus",
+   "start_date": "2026-11-07",
+   "due_date": "2026-11-13"
   },
   {
    "id": "2-B",
@@ -526,7 +534,9 @@
    "role": "leader",
    "task": "Pasang Flutter SDK 3.47.9, jana projek `mobile_app_v1`, tulis `APP_SPEC.md` dari Figure 3",
    "status": "siap",
-   "detail": "siap"
+   "detail": "siap",
+   "start_date": "2026-11-07",
+   "due_date": "2026-11-13"
   },
   {
    "id": "2-C",
@@ -536,7 +546,9 @@
    "role": "leader",
    "task": "Sahkan semula analyze + test sendiri, build web, tangkap 4 skrin",
    "status": "siap",
-   "detail": "siap — bukti dalam `mobile_app_v1\\screenshots\\`"
+   "detail": "siap — bukti dalam `mobile_app_v1\\screenshots\\`",
+   "start_date": "2026-11-07",
+   "due_date": "2026-11-13"
   },
   {
    "id": "2-D",
@@ -546,7 +558,9 @@
    "role": "builder",
    "task": "APK pada telefon sebenar + permintaan kebenaran runtime (permission_handler)",
    "status": "brief",
-   "detail": "brief — perlu telefon"
+   "detail": "brief — perlu telefon",
+   "start_date": "2026-11-07",
+   "due_date": "2026-11-13"
   },
   {
    "id": "2-E",
@@ -556,7 +570,9 @@
    "role": "leader",
    "task": "Tambah platform iOS, kunci kebenaran Bluetooth dalam `Info.plist`, tulis `codemagic.yaml`",
    "status": "siap",
-   "detail": "siap — plist disahkan `plistlib`, bundle id `my.iium.bagsenseApp`"
+   "detail": "siap — plist disahkan `plistlib`, bundle id `my.iium.bagsenseApp`",
+   "start_date": "2026-11-07",
+   "due_date": "2026-11-13"
   },
   {
    "id": "2-F",
@@ -566,7 +582,9 @@
    "role": "leader",
    "task": "Cuba `flutter build apk --debug` atas mesin ini (Java 25 vs Gradle = risiko)",
    "status": "siap",
-   "detail": "siap — APK 145 MB, Java 25 tidak lawan Gradle. Gradle muat turun NDK + build-tools 36 + CMake (1193 s pertama)"
+   "detail": "siap — APK 145 MB, Java 25 tidak lawan Gradle. Gradle muat turun NDK + build-tools 36 + CMake (1193 s pertama)",
+   "start_date": "2026-11-07",
+   "due_date": "2026-11-13"
   },
   {
    "id": "3-A",
@@ -576,7 +594,9 @@
    "role": "writer",
    "task": "Draf penuh Chapter 3 (docx + PDF)",
    "status": "brief",
-   "detail": "brief"
+   "detail": "brief",
+   "start_date": null,
+   "due_date": null
   },
   {
    "id": "3-B",
@@ -586,7 +606,9 @@
    "role": "builder",
    "task": "Skrip ujian single-tag + templat CSV 100 trials",
    "status": "brief",
-   "detail": "brief"
+   "detail": "brief",
+   "start_date": null,
+   "due_date": null
   },
   {
    "id": "3-C",
@@ -596,7 +618,9 @@
    "role": "builder",
    "task": "Kira power budget dengan nilai datasheet, tandakan yang tiada",
    "status": "brief",
-   "detail": "brief"
+   "detail": "brief",
+   "start_date": null,
+   "due_date": null
   }
  ],
  "milestones": [
