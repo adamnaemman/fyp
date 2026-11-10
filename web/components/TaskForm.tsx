@@ -48,6 +48,18 @@ export default function TaskForm({
       </label>
 
       <label>
+        <span>Kumpulan (batch)</span>
+        <input
+          name="batch_no"
+          type="number"
+          min="0"
+          step="1"
+          defaultValue={task?.batch_no ?? 0}
+          title="0 = tanpa kumpulan"
+        />
+      </label>
+
+      <label>
         <span>Pemilik / peranan</span>
         <input name="role" defaultValue={task?.role ?? ""} placeholder="Adam / Amru / SV" list="tf-roles" />
         <datalist id="tf-roles">

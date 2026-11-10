@@ -49,6 +49,8 @@ export async function saveTask(
   const end = dateOrNull(str(fd, "end_date"));
   const role = str(fd, "role");
   const detail = str(fd, "detail");
+  const batchRaw = Number.parseInt(str(fd, "batch_no") || "0", 10);
+  const batch_no = Number.isFinite(batchRaw) && batchRaw > 0 ? batchRaw : 0;
 
   if (!id && !task) return { ok: false, message: "Tajuk tugasan wajib diisi." };
   if (!STATUSES.includes(status)) return { ok: false, message: "Status tidak sah." };
@@ -71,6 +73,7 @@ export async function saveTask(
       role: role || null,
       status,
       detail: detail || null,
+      batch_no,
       start_date: start,
       end_date: end,
       updated_at: new Date().toISOString(),
@@ -81,7 +84,7 @@ export async function saveTask(
       ? await supabase.from("tasks").update(row).eq("id", id).select("id").maybeSingle()
       : await supabase
           .from("tasks")
-          .insert({ id: newTaskId(), batch_no: 0, batch_note: "ditambah dari web", ...row })
+          .insert({ id: newTaskId(), batch_note: "ditambah dari web", ...row })
           .select("id")
           .maybeSingle();
 
