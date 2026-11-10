@@ -2,22 +2,26 @@
 
 import { useActionState, useEffect, useState } from "react";
 import { fmtRange } from "@/lib/date";
-import type { Task } from "@/lib/types";
+import type { Batch, Task } from "@/lib/types";
 import TaskForm from "./TaskForm";
 import { deleteTask } from "@/lib/task-actions";
 
 /**
  * Panel butiran satu tugasan. Dibuka dengan klik chip kalendar atau bar Gantt.
  * Panel yang sama memegang borang suntingan — satu jalan tulis untuk tarikh/status.
+ * `batches` dihantar dari halaman yang mengurus batch (/tugasan); halaman lain
+ * biarkan ia undefined dan borang guna nombor batch seperti dulu.
  */
 export default function TaskDetail({
   task,
   canWrite,
   onClose,
+  batches,
 }: {
   task: Task;
   canWrite: boolean;
   onClose: () => void;
+  batches?: Batch[];
 }) {
   useEffect(() => {
     const esc = (e: KeyboardEvent) => {
@@ -42,6 +46,13 @@ export default function TaskDetail({
         : task.end_date
           ? `tamat ${task.end_date}`
           : "belum dijadualkan";
+
+  const batchRow = batches
+    ? (batches.find((b) => b.id === task.batch_id) ?? batches.find((b) => b.no === task.batch_no))
+    : undefined;
+  const batchText = task.batch_no
+    ? `Batch ${task.batch_no}${batchRow?.label ? ` · ${batchRow.label}` : ""}`
+    : "tanpa batch";
 
   return (
     <>
@@ -70,7 +81,7 @@ export default function TaskDetail({
           <dd>{task.role || "—"}</dd>
           <dt>Batch</dt>
           <dd>
-            {task.batch_no ? `Batch ${task.batch_no}` : "tanpa batch"}
+            {batchText}
             {task.batch_note ? ` · ${task.batch_note}` : ""}
           </dd>
           <dt>Butiran</dt>
@@ -78,7 +89,7 @@ export default function TaskDetail({
         </dl>
 
         <div className="drawer-f">
-          <TaskForm task={task} canWrite={canWrite} compact onSaved={onClose} />
+          <TaskForm task={task} canWrite={canWrite} compact onSaved={onClose} batches={batches} />
 
           {canWrite && (
             <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid var(--line)" }}>

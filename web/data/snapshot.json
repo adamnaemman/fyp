@@ -1,13 +1,93 @@
 {
- "generated": "2026-11-10 11:13",
+ "generated": "2026-11-10 12:23",
  "who": [
   "Ahmad Adam Hakimi bin Naeman, matric 2418711, AI specialisation",
   "Amru Hazem bin Ahmad Tarmizi, matric 2419467"
  ],
  "weeks": [
   {
-   "id": "Week05_26Oct-01Nov",
+   "id": "Week01_28Sep-04Oct",
    "sort": 0,
+   "num": 1,
+   "suffix": "",
+   "label": "Minggu 1",
+   "start": "2026-09-28",
+   "end": "2026-10-04",
+   "seminar": "-",
+   "gate": "-",
+   "gate_status": "belum",
+   "gate_note": null,
+   "focus": [],
+   "evidence": {
+    "docs": 0,
+    "code": 1,
+    "report": 0,
+    "synced_at": "2026-11-10"
+   }
+  },
+  {
+   "id": "Week02_05Oct-11Oct",
+   "sort": 1,
+   "num": 2,
+   "suffix": "",
+   "label": "Minggu 2",
+   "start": "2026-10-05",
+   "end": "2026-10-11",
+   "seminar": "-",
+   "gate": "-",
+   "gate_status": "belum",
+   "gate_note": null,
+   "focus": [],
+   "evidence": {
+    "docs": 0,
+    "code": 1,
+    "report": 0,
+    "synced_at": "2026-11-10"
+   }
+  },
+  {
+   "id": "Week03_12Oct-18Oct",
+   "sort": 2,
+   "num": 3,
+   "suffix": "",
+   "label": "Minggu 3",
+   "start": "2026-10-12",
+   "end": "2026-10-18",
+   "seminar": "-",
+   "gate": "-",
+   "gate_status": "belum",
+   "gate_note": null,
+   "focus": [],
+   "evidence": {
+    "docs": 0,
+    "code": 1,
+    "report": 0,
+    "synced_at": "2026-11-10"
+   }
+  },
+  {
+   "id": "Week04_19Oct-25Oct",
+   "sort": 3,
+   "num": 4,
+   "suffix": "",
+   "label": "Minggu 4",
+   "start": "2026-10-19",
+   "end": "2026-10-25",
+   "seminar": "-",
+   "gate": "-",
+   "gate_status": "belum",
+   "gate_note": null,
+   "focus": [],
+   "evidence": {
+    "docs": 0,
+    "code": 1,
+    "report": 0,
+    "synced_at": "2026-11-10"
+   }
+  },
+  {
+   "id": "Week05_26Oct-01Nov",
+   "sort": 4,
    "num": 5,
    "suffix": "",
    "label": "Minggu 5",
@@ -58,7 +138,7 @@
   },
   {
    "id": "Week06_02Nov-08Nov",
-   "sort": 1,
+   "sort": 5,
    "num": 6,
    "suffix": "",
    "label": "Minggu 6",
@@ -103,7 +183,7 @@
   },
   {
    "id": "Week07_09Nov-15Nov",
-   "sort": 2,
+   "sort": 6,
    "num": 7,
    "suffix": "",
    "label": "Minggu 7",
@@ -140,7 +220,7 @@
     }
    ],
    "evidence": {
-    "docs": 1,
+    "docs": 8,
     "code": 0,
     "report": 0,
     "synced_at": "2026-11-10"
@@ -148,7 +228,7 @@
   },
   {
    "id": "Week07B_SemBreak_16Nov-22Nov",
-   "sort": 3,
+   "sort": 7,
    "num": 7,
    "suffix": "B",
    "label": "Minggu 7B",
@@ -193,7 +273,7 @@
   },
   {
    "id": "Week08_23Nov-29Nov",
-   "sort": 4,
+   "sort": 8,
    "num": 8,
    "suffix": "",
    "label": "Minggu 8",
@@ -238,7 +318,7 @@
   },
   {
    "id": "Week09_30Nov-06Dec",
-   "sort": 5,
+   "sort": 9,
    "num": 9,
    "suffix": "",
    "label": "Minggu 9",
@@ -277,7 +357,7 @@
   },
   {
    "id": "Week10_07Dec-13Dec",
-   "sort": 6,
+   "sort": 10,
    "num": 10,
    "suffix": "",
    "label": "Minggu 10",
@@ -322,7 +402,7 @@
   },
   {
    "id": "Week11_14Dec-20Dec",
-   "sort": 7,
+   "sort": 11,
    "num": 11,
    "suffix": "",
    "label": "Minggu 11",
@@ -361,7 +441,7 @@
   },
   {
    "id": "Week12_21Dec-27Dec",
-   "sort": 8,
+   "sort": 12,
    "num": 12,
    "suffix": "",
    "label": "Minggu 12",
@@ -400,7 +480,7 @@
   },
   {
    "id": "Week13_28Dec-03Jan",
-   "sort": 9,
+   "sort": 13,
    "num": 13,
    "suffix": "",
    "label": "Minggu 13",
@@ -439,7 +519,7 @@
   },
   {
    "id": "Week14_05Jan-11Jan",
-   "sort": 10,
+   "sort": 14,
    "num": 14,
    "suffix": "",
    "label": "Minggu 14",

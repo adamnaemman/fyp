@@ -2,16 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { DOC_URL, REPO_URL } from "@/lib/links";
 
-const DOC_URL =
-  "https://docs.google.com/document/d/1rQ98B42OooaBzW2EFtY4l-BTmJenaSrqJXd2mtJ6JD4/edit?usp=sharing";
+type NavItem = { href: string; label: string; hint: string; external?: boolean };
 
-const REPO_URL = "https://github.com/adamnaemman/fyp";
-
-const NAV = [
+const NAV: NavItem[] = [
   { href: "/", label: "Progres", hint: "progres mingguan" },
+  { href: "/tugasan", label: "Tugasan", hint: "urus batch + tugasan" },
   { href: "/gantt", label: "Gantt", hint: "susunan tugas ikut tarikh" },
   { href: "/calendar", label: "Kalendar", hint: "tugasan ikut hari" },
+  { href: "/panduan", label: "Panduan", hint: "untuk SV dan Amru" },
   { href: DOC_URL, label: "Laporan", hint: "Google Doc — sumber utama", external: true },
   { href: REPO_URL, label: "Repo", hint: "kod di GitHub", external: true },
 ];

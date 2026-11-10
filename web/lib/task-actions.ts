@@ -25,6 +25,7 @@ function refresh() {
   revalidatePath("/");
   revalidatePath("/gantt");
   revalidatePath("/calendar");
+  revalidatePath("/tugasan");
 }
 
 /**
@@ -51,6 +52,10 @@ export async function saveTask(
   const detail = str(fd, "detail");
   const batchRaw = Number.parseInt(str(fd, "batch_no") || "0", 10);
   const batch_no = Number.isFinite(batchRaw) && batchRaw > 0 ? batchRaw : 0;
+  // Borang /tugasan menghantar batch_id (pilihan dari jadual batches). Halaman Gantt
+  // lama hanya menghantar nombor — dalam kes itu batch_id sedia ada TIDAK disentuh.
+  const hasBatchId = fd.has("batch_id");
+  const batch_id = hasBatchId ? str(fd, "batch_id") || null : undefined;
 
   if (!id && !task) return { ok: false, message: "Tajuk tugasan wajib diisi." };
   if (!STATUSES.includes(status)) return { ok: false, message: "Status tidak sah." };
@@ -74,6 +79,7 @@ export async function saveTask(
       status,
       detail: detail || null,
       batch_no,
+      ...(hasBatchId ? { batch_id } : {}),
       start_date: start,
       end_date: end,
       updated_at: new Date().toISOString(),
@@ -89,9 +95,11 @@ export async function saveTask(
           .maybeSingle();
 
     if (res.error) {
-      const hint = /start_date|end_date|column/i.test(res.error.message)
-        ? " — jalankan migration web/supabase/migrations/2026-11-10_task_dates.sql dalam SQL Editor."
-        : "";
+      const hint = /batch_id|batches/i.test(res.error.message)
+        ? " — jalankan migrasi web/supabase/migrations/2026-11-10_batches.sql dalam SQL Editor."
+        : /start_date|end_date|column/i.test(res.error.message)
+          ? " — jalankan migration web/supabase/migrations/2026-11-10_task_dates.sql dalam SQL Editor."
+          : "";
       return { ok: false, message: `Gagal simpan: ${res.error.message}${hint}` };
     }
     refresh();
@@ -101,9 +109,10 @@ export async function saveTask(
   // mod snapshot: tiada auth, tiada members — tulis setempat
   const stored: Task = {
     id: id || newTaskId(),
-    batch_no: 0,
+    batch_no,
     batch_date: null,
-    batch_note: "ditambah dari web (mod snapshot)",
+    batch_note: "",
+    batch_id: hasBatchId ? batch_id : undefined,
     role,
     task,
     status,

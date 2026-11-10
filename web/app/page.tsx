@@ -6,6 +6,7 @@ import WeekCard from "@/components/WeekCard";
 import Tasks from "@/components/Tasks";
 import Milestones from "@/components/Milestones";
 import Blocked from "@/components/Blocked";
+import LinksCard from "@/components/LinksCard";
 import { Plans, Specs } from "@/components/SpecsPlans";
 import { fmtDate, todayIso } from "@/lib/date";
 
@@ -130,6 +131,12 @@ export default async function Home({
           <Plans plans={tracker.plans} />
         </div>
 
+        <h2 className="sec">Pautan</h2>
+        <p className="secnote">
+          Dua pautan yang selalu dicari: dokumen laporan dan kod. Sidebar kekal seperti sebelum ini.
+        </p>
+        <LinksCard />
+
         <div className="caveat">
           <h3>Apa yang halaman ini tak tahu</h3>
           <p>
@@ -143,12 +150,12 @@ export default async function Home({
           </p>
         </div>
 
-        <footer>
+        <div className="foot-old" hidden>
           <span>{tracker.who.join(" · ") || "BagSense"} · BICS 4321 FYP1 · IIUM KICT</span>
           <span>
             mod: {tracker.mode} · dijana {tracker.generated.slice(0, 16).replace("T", " ")}
           </span>
-        </footer>
+        </div>
       </div>
     </>
   );

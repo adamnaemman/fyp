@@ -1,8 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { saveTask } from "@/lib/task-actions";
-import type { ActionResult, Task, TaskStatus } from "@/lib/types";
+import type { ActionResult, Batch, Task, TaskStatus } from "@/lib/types";
 
 export const STATUS_LABEL: Record<TaskStatus, string> = {
   brief: "brief",
@@ -17,17 +17,24 @@ const STATUSES = Object.keys(STATUS_LABEL) as TaskStatus[];
 /**
  * Borang tambah DAN kemas kini. Tarikh dibiarkan kosong secara lalai — app tidak
  * sekali-kali mengisi tarikh hari ini bagi pihak Adam. Kosong = belum dijadualkan.
+ *
+ * `batches` (pilihan): bila dihantar, medan batch jadi senarai pilihan dari jadual
+ * `batches`. Tugasan lama yang hanya ada `batch_no` dipadankan ikut nombor itu.
  */
 export default function TaskForm({
   task,
   canWrite,
   onSaved,
   compact,
+  batches,
+  defaultBatchId,
 }: {
   task?: Task;
   canWrite: boolean;
   onSaved?: () => void;
   compact?: boolean;
+  batches?: Batch[];
+  defaultBatchId?: string;
 }) {
   const [state, action, pending] = useActionState<ActionResult | null, FormData>(
     async (prev, fd) => {
@@ -38,6 +45,17 @@ export default function TaskForm({
     null,
   );
 
+  const [pick, setPick] = useState<string>(() => {
+    if (task?.batch_id) return task.batch_id;
+    if (task && task.batch_no > 0) {
+      const match = batches?.find((b) => b.no === task.batch_no);
+      if (match) return match.id;
+    }
+    return defaultBatchId ?? "";
+  });
+  const picked = batches?.find((b) => b.id === pick);
+  const unknownPick = Boolean(pick) && !picked;
+
   return (
     <form className={`tform ${compact ? "compact" : ""}`} action={action}>
       {task && <input type="hidden" name="id" value={task.id} />}
@@ -47,17 +65,35 @@ export default function TaskForm({
         <input name="task" required defaultValue={task?.task ?? ""} placeholder="Contoh: ujian bacaan 5 tag dalam cavity" />
       </label>
 
-      <label>
-        <span>Kumpulan (batch)</span>
-        <input
-          name="batch_no"
-          type="number"
-          min="0"
-          step="1"
-          defaultValue={task?.batch_no ?? 0}
-          title="0 = tanpa kumpulan"
-        />
-      </label>
+      {batches ? (
+        <label>
+          <span>Kumpulan (batch)</span>
+          <select value={pick} onChange={(e) => setPick(e.target.value)}>
+            <option value="">— tanpa batch —</option>
+            {batches.map((b) => (
+              <option key={b.id} value={b.id}>
+                Batch {b.no}
+                {b.label ? ` · ${b.label}` : ""}
+              </option>
+            ))}
+            {unknownPick && <option value={pick}>Batch {task?.batch_no} · tiada dalam senarai</option>}
+          </select>
+          <input type="hidden" name="batch_id" value={pick} />
+          <input type="hidden" name="batch_no" value={picked ? picked.no : (task?.batch_no ?? 0)} />
+        </label>
+      ) : (
+        <label>
+          <span>Kumpulan (batch)</span>
+          <input
+            name="batch_no"
+            type="number"
+            min="0"
+            step="1"
+            defaultValue={task?.batch_no ?? 0}
+            title="0 = tanpa kumpulan"
+          />
+        </label>
+      )}
 
       <label>
         <span>Pemilik / peranan</span>

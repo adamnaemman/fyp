@@ -46,6 +46,21 @@ export type Task = {
   /** untuk Gantt + Kalendar; null/tiada = belum dijadualkan (jangan reka tarikh) */
   start_date?: string | null;
   end_date?: string | null;
+  /** pautan ke jadual `batches`. Tugasan lama dari fail projek tiada ini — guna batch_no. */
+  batch_id?: string | null;
+};
+
+/**
+ * Satu kumpulan kerja (batch). `no` kekal sebagai nombor supaya boleh dibanding
+ * dengan batch lama dari TASKBOARD; `label`/`date`/`note` milik manusia.
+ * Tarikh kosong kekal null — tiada tarikh direka.
+ */
+export type Batch = {
+  id: string;
+  no: number;
+  label: string;
+  date: string | null;
+  note: string;
 };
 
 export type ActionResult = { ok: boolean; message: string };
@@ -74,6 +89,9 @@ export type Tracker = {
   who: string[];
   weeks: Week[];
   tasks: Task[];
+  batches: Batch[];
+  /** false = jadual `batches` belum wujud di DB (migrasi belum dijalankan). */
+  batchesReady: boolean;
   milestones: Milestone[];
   blocked: BlockedItem[];
   specs: Spec[];

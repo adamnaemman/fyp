@@ -1,10 +1,11 @@
 import { connection } from "next/server";
 import snapshot from "@/data/snapshot.json";
 import { getSupabase } from "./supabase/server";
-import { readLocalTasks } from "./local-store";
+import { readLocalBatches, readLocalTasks, type LocalBatch, type LocalRow } from "./local-store";
+import { batchOf } from "./batches";
 import { fmtRange, klStamp, todayIso } from "./date";
 import type {
-  BlockedItem, Evidence, FocusItem, Milestone, Plan, Spec, Task, Tracker, Week, WeekState,
+  Batch, BlockedItem, Evidence, FocusItem, Milestone, Plan, Spec, Task, Tracker, Week, WeekState,
 } from "./types";
 
 type SnapWeek = Omit<Week, "state" | "focus" | "evidence"> & {
@@ -39,22 +40,86 @@ export function daysBetween(from: string, to: string): number {
 }
 
 /** Tarikh tugas sentiasa ada sebagai `null` bila belum dijadualkan — jangan reka nilai. */
-function normTask(t: Task): Task {
-  return { ...t, start_date: t.start_date ?? null, end_date: t.end_date ?? null };
+function normTask(t: Task | LocalRow): Task {
+  return {
+    ...t,
+    batch_no: t.batch_no ?? 0,
+    batch_date: t.batch_date ?? null,
+    batch_note: t.batch_note ?? "",
+    role: t.role ?? "",
+    task: t.task ?? "",
+    status: t.status ?? "brief",
+    detail: t.detail ?? "",
+    start_date: t.start_date ?? null,
+    end_date: t.end_date ?? null,
+    batch_id: t.batch_id ?? null,
+  };
 }
 
-function fromSnapshotTasks(local: Task[]): Task[] {
-  const base = SNAP.tasks.map(normTask);
-  if (local.length === 0) return base;
+/**
+ * Batch dalam mod snapshot. Tugasan dari fail projek hanya ada `batch_no` +
+ * `batch_date`/`batch_note`, jadi batch dicantumkan dari situ; tompokan setempat
+ * (`local_batches.json`) mengatasinya. Tiada date baru dicipta di sini.
+ */
+function deriveBatches(tasks: Task[], local: LocalBatch[]): Batch[] {
+  const map = new Map<string, Batch>();
+  for (const t of tasks) {
+    if (!t.batch_no || t.batch_no < 1) continue;
+    const id = `b-no-${t.batch_no}`;
+    const cur = map.get(id);
+    if (!cur) {
+      map.set(id, { id, no: t.batch_no, label: "", date: t.batch_date ?? null, note: t.batch_note ?? "" });
+    } else {
+      if (!cur.date && t.batch_date) cur.date = t.batch_date;
+      if (!cur.note && t.batch_note) cur.note = t.batch_note;
+    }
+  }
+  for (const b of local) {
+    if (b.deleted) {
+      map.delete(b.id);
+      continue;
+    }
+    map.set(b.id, {
+      id: b.id,
+      no: b.no ?? 0,
+      label: b.label ?? "",
+      date: b.date ?? null,
+      note: b.note ?? "",
+    });
+  }
+  return [...map.values()].sort((a, b) => a.no - b.no || a.label.localeCompare(b.label));
+}
+
+/** Batch ialah sumber untuk tarikh/nota kumpulan; tugasan ikut nilai batch bila ada. */
+function applyBatchInfo(tasks: Task[], batches: Batch[]): Task[] {
+  return tasks.map((t) => {
+    const b = batchOf(t, batches);
+    if (!b) return t;
+    return {
+      ...t,
+      batch_no: b.no,
+      batch_date: b.date ?? t.batch_date ?? null,
+      batch_note: b.note || t.batch_note || "",
+    };
+  });
+}
+
+function fromSnapshotTasks(local: LocalRow[]): Task[] {
+  const gone = new Set(local.filter((r) => r.deleted).map((r) => r.id));
+  const patches = local.filter((r) => !r.deleted);
+  const base = SNAP.tasks.map(normTask).filter((t) => !gone.has(t.id));
+  if (patches.length === 0) return base;
   const out = base.map((t) => {
-    const patch = local.find((l) => l.id === t.id);
+    const patch = patches.find((l) => l.id === t.id);
     return patch ? normTask({ ...t, ...patch }) : t;
   });
-  for (const l of local) if (!out.some((t) => t.id === l.id)) out.push(normTask(l));
+  for (const l of patches) if (!out.some((t) => t.id === l.id)) out.push(normTask(l));
   return out;
 }
 
 async function fromSnapshot(): Promise<Tracker> {
+  const tasks = fromSnapshotTasks(await readLocalTasks());
+  const batches = deriveBatches(tasks, await readLocalBatches());
   return {
     mode: "snapshot",
     note: null,
@@ -70,7 +135,10 @@ async function fromSnapshot(): Promise<Tracker> {
       })),
       evidence: w.evidence ? { ...w.evidence, week_id: w.id } : null,
     })),
-    tasks: fromSnapshotTasks(await readLocalTasks()),
+    tasks: applyBatchInfo(tasks, batches),
+    batches,
+    // Mod snapshot menulis ke fail setempat, jadi batch boleh diurus walaupun tiada DB.
+    batchesReady: true,
     milestones: SNAP.milestones.map((m, i) => ({ ...m, id: m.id ?? `ms-${i}`, ord: m.ord ?? i })),
     blocked: SNAP.blocked.map((b, i) => ({
       ...b, id: b.id ?? `blk-${i}`, resolved: Boolean(b.resolved),
@@ -94,7 +162,7 @@ export async function getTracker(): Promise<Tracker> {
   if (!supabase) return fallback;
 
   try {
-    const [weeksQ, focusQ, evQ, tasksQ, msQ, blkQ, specQ, planQ] = await Promise.all([
+    const [weeksQ, focusQ, evQ, tasksQ, msQ, blkQ, specQ, planQ, batchQ] = await Promise.all([
       supabase.from("weeks").select("*").order("sort", { ascending: true }),
       supabase.from("focus_items").select("*").order("ord", { ascending: true }),
       supabase.from("evidence").select("*"),
@@ -103,6 +171,9 @@ export async function getTracker(): Promise<Tracker> {
       supabase.from("blocked").select("*").order("ord", { ascending: true }),
       supabase.from("specs").select("*").order("ord", { ascending: true }),
       supabase.from("plans").select("*").order("ord", { ascending: true }),
+      // jadual `batches` datang dari migrasi kemudian: kegagalannya TIDAK boleh
+      // menjatuhkan seluruh halaman, jadi ralatnya diperiksa berasingan.
+      supabase.from("batches").select("*").order("no", { ascending: true }),
     ]);
 
     const firstError = [weeksQ, focusQ, evQ, tasksQ, msQ, blkQ, specQ, planQ]
@@ -139,13 +210,29 @@ export async function getTracker(): Promise<Tracker> {
       evidence: evByWeek.get(w.id) ?? null,
     }));
 
+    // `batches` mungkin belum wujud (migrasi belum jalan): kalau begitu, batch
+    // dicantumkan dari tasks.batch_no sahaja dan halaman /tugasan beri amaran.
+    const batchesReady = !batchQ.error;
+    const tasks = ((tasksQ.data ?? []) as Task[]).map(normTask);
+    const batches: Batch[] = batchesReady
+      ? (batchQ.data ?? []).map((b) => ({
+          id: String(b.id),
+          no: b.no ?? 0,
+          label: b.label ?? "",
+          date: b.date ?? null,
+          note: b.note ?? "",
+        }))
+      : deriveBatches(tasks, []);
+
     return {
       mode: "supabase",
       note: null,
       generated: klStamp(),
       who: SNAP.who ?? [],
       weeks,
-      tasks: ((tasksQ.data ?? []) as Task[]).map(normTask),
+      tasks: applyBatchInfo(tasks, batches),
+      batches,
+      batchesReady,
       milestones: (msQ.data ?? []) as Milestone[],
       blocked: (blkQ.data ?? []) as BlockedItem[],
       specs: (specQ.data ?? []) as Spec[],
