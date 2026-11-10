@@ -88,11 +88,10 @@ def build_snapshot() -> dict:
                 "status": r["status"] if r["status"] in
                           ("brief", "jalan", "semak", "siap", "sekat") else "brief",
                 "detail": r["detail"],
-                # tarikh per-task: anggaran dari tarikh batch (mula = batch, akhir = +6 hari)
-                "start_date": b["date"] if re.match(r"^\d{4}-\d{2}-\d{2}$", b["date"] or "") else None,
-                "due_date": (date.fromisoformat(b["date"]).toordinal() + 6) and
-                            date.fromordinal(date.fromisoformat(b["date"]).toordinal() + 6).isoformat()
-                            if re.match(r"^\d{4}-\d{2}-\d{2}$", b["date"] or "") else None,
+                # Tarikh per-tugasan ialah medan MANUSIA — diisi dalam tab Gantt.
+                # Skrip ini tidak menganggar tarikh dari tarikh batch: null kekal null.
+                "start_date": None,
+                "end_date": None,
             })
 
     milestones = [
@@ -204,6 +203,9 @@ def push(snap: dict, dry: bool = False) -> int:
     task_status = {t["id"]: t["status"] for t in snap["tasks"]}
     for t in snap["tasks"]:
         t.pop("status", None)  # status tugasan milik manusia selepas import pertama
+        # tarikh per-tugasan juga milik manusia (diisi di web) — jangan timpa dengan NULL
+        t.pop("start_date", None)
+        t.pop("end_date", None)
         t.pop("updated_at", None)
         t.pop("updated_by", None)
 
