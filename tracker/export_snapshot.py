@@ -4,6 +4,13 @@
     python tracker/export_snapshot.py            # tulis snapshot sahaja
     python tracker/export_snapshot.py --push     # tulis snapshot + upsert ke Supabase
 
+Peraturan sync (jangan diubah tanpa sebab):
+    * tasks  : insert-if-missing sahaja. status, start_date, end_date, batch_no dan
+               batch_id yang diset dalam web TIDAK ditulis ganti.
+    * batches: diurus sepenuhnya dari web (halaman /tugasan); skrip ini tidak menulisnya.
+    * weeks/focus/evidence/milestones/blocked/specs/plans : disalin dari fail projek
+               (done, gate_status tetap milik manusia).
+
 Snapshot ialah fallback baca-sahaja untuk app Next.js: kalau env var Supabase tiada
 atau rangkaian gagal, halaman masih memaparkan data fail projek yang sebenar.
 
@@ -213,7 +220,10 @@ def push(snap: dict, dry: bool = False) -> int:
         "weeks": weeks,
         "focus_items": focus,
         "evidence": evidence,
-        "tasks": snap["tasks"],
+        # `tasks` SENGAJA tiada di sini. Tugasan dimasukkan sekali sahaja (langkah 1
+        # di bawah, resolution=ignore-duplicates). Kalau ia masuk gelung merge-duplicates,
+        # batch_no/batch_date/batch_note yang diset dalam web akan ditimpa semula dengan
+        # nilai TASKBOARD setiap kali sync. Batch pula diurus sepenuhnya dari web.
         "milestones": snap["milestones"],
         "blocked": snap["blocked"],
         "specs": snap["specs"],
@@ -221,6 +231,8 @@ def push(snap: dict, dry: bool = False) -> int:
     }
 
     if dry:
+        print(f"[dry-run] tasks: {len(snap['tasks'])} baris → insert-if-missing sahaja "
+              f"(status/tarikh/batch sedia ada tidak disentuh)")
         for t, rows in payloads.items():
             print(f"[dry-run] {t}: {len(rows)} baris → contoh {json.dumps(rows[0], ensure_ascii=False)[:150] if rows else '-'}")
         return 0

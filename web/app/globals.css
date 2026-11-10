@@ -495,6 +495,17 @@ details.bx .inner{padding:2px 0 13px}
   .bhead h3{font-size:13.5px}
   .tools{padding:10px 12px 0}
   details.bx{padding:0 10px}
+  /* jadual peranan: pada telefon, satu baris jadi satu kad supaya lajur ketiga
+     tidak terpotong dan tidak perlu skrol mendatar dalam kad. */
+  .rolex{min-width:0}
+  .rolex thead{display:none}
+  .rolex,.rolex tbody,.rolex tr,.rolex td{display:block;width:100%}
+  .rolex tr{border:1px solid var(--line);border-radius:9px;background:var(--panel2);
+    padding:8px 10px;margin-bottom:8px}
+  .rolex tr:last-child{margin-bottom:0}
+  .rolex td{border:0;padding:2px 0}
+  .rolex td:first-child{font:10.5px var(--mono);text-transform:uppercase;letter-spacing:.08em;
+    color:var(--sky)}
   .bacts .btn{white-space:nowrap}
   /* id tugasan (contoh u-mwa6xvg0) jangan patah dua baris dalam senarai sempit */
   .task .id{flex:0 0 auto;white-space:nowrap}

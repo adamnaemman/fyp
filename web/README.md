@@ -8,6 +8,8 @@ yang membaca fail projek pada cakera.
 web/
 ├── app/
 │   ├── page.tsx              halaman tracker (Server Component)
+│   ├── tugasan/page.tsx      urus batch + tugasan (tulis melalui Server Action)
+│   ├── panduan/page.tsx      penerangan satu halaman untuk SV/Amru
 │   ├── login/page.tsx        log masuk pautan emel
 │   ├── auth/callback/        tukar kod OTP -> sesi
 │   ├── api/                  tulisan: /api/focus /api/task /api/gate /api/blocked (+ auth)
@@ -20,7 +22,22 @@ web/
 │   └── supabase/server.ts    klien SSR (kunci anon sahaja)
 ├── data/snapshot.json        DIJANA oleh tracker/export_snapshot.py - jangan edit tangan
 └── supabase/schema.sql       jadual + RLS + seed ahli, jalankan sekali di SQL Editor
+                              (migrasi tambahan: supabase/migrations/*.sql)
 ```
+
+## Halaman
+
+| Laluan | Guna |
+|---|---|
+| `/` | progres mingguan, gate, tugasan, tarikh penting, pautan laporan + repo |
+| `/tugasan` | urus batch (tambah/ubah/padam) dan tugasan di dalamnya; tarikh mula/tamat |
+| `/gantt` | bar tugasan ikut tarikh; panel "Belum dijadualkan" |
+| `/calendar` | tugasan ikut hari (bulanan) |
+| `/panduan` | penerangan untuk SV/Amru: peranan, log masuk, status, had laman |
+| `/barang` | senarai barang + tag UHF (jadual `items`) |
+
+Pautan luar (Laporan Google Docs, repo GitHub) ada di **satu tempat**: `lib/links.ts` —
+dipakai oleh sidebar, footer semua halaman (`components/SiteFooter.tsx`) dan kad "Pautan" di `/`.
 
 ## Mod yang mungkin
 
@@ -63,7 +80,9 @@ web/
 - **Gagal Supabase != halaman kosong.** `lib/data.ts` memaparkan snapshot fail projek dan
   menulis nota di atas — lebih baik data semalam daripada skrin putih pada hari pembentangan.
 - **Sync tidak menimpa kerja manusia.** Payload `--push` sengaja tidak menghantar
-  `gate_status`, `tasks.status`, `focus_items.done`.
+  `gate_status`, `tasks.status`, `focus_items.done`. Tugasan pula dimasukkan sekali sahaja
+  (insert-if-missing) — `start_date`, `end_date`, `batch_no`, `batch_id` yang diset dalam web
+  tidak ditulis ganti. Batch (`batches`) diurus sepenuhnya dari halaman `/tugasan`.
 
 ## Perintah
 
