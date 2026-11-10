@@ -3,6 +3,7 @@ import { getViewer } from "@/lib/auth";
 import { supabaseConfigured } from "@/lib/supabase/server";
 import { todayIso } from "@/lib/date";
 import TopBar from "@/components/TopBar";
+import PrintButton from "@/components/PrintButton";
 import GanttChart from "@/components/GanttChart";
 import TaskForm from "@/components/TaskForm";
 
@@ -37,10 +38,15 @@ export default async function Gantt() {
         )}
 
         <section className="pagehead">
-          <p className="kicker">Susunan kerja</p>
-          <h1>
-            Gantt <span>— 11 minggu FYP1</span>
-          </h1>
+          <div className="secrow" style={{ margin: 0, alignItems: "flex-start" }}>
+            <div>
+              <p className="kicker">Susunan kerja</p>
+              <h1>
+                Gantt <span>— {tracker.weeks.length} minggu FYP1</span>
+              </h1>
+            </div>
+            <PrintButton />
+          </div>
           <p className="sub">
             Lajur ialah minggu daripada jadual <code>weeks</code>. Bar mengikut{" "}
             <code>start_date</code> → <code>end_date</code> setiap tugasan. Status ialah pilihan

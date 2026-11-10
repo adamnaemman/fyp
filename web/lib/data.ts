@@ -5,7 +5,7 @@ import { readLocalBatches, readLocalTasks, type LocalBatch, type LocalRow } from
 import { batchOf } from "./batches";
 import { fmtRange, klStamp, todayIso } from "./date";
 import type {
-  Batch, BlockedItem, Evidence, FocusItem, Milestone, Plan, Spec, Task, Tracker, Week, WeekState,
+  Batch, BlockedItem, Evidence, Item, FocusItem, Milestone, Plan, Spec, Task, Tracker, Week, WeekState,
 } from "./types";
 
 type SnapWeek = Omit<Week, "state" | "focus" | "evidence"> & {
@@ -63,8 +63,14 @@ function normTask(t: Task | LocalRow): Task {
  */
 function deriveBatches(tasks: Task[], local: LocalBatch[]): Batch[] {
   const map = new Map<string, Batch>();
+  // Nombor batch yang sudah ada barisnya sendiri (ditulis dari web) tidak dicantumkan
+  // lagi dari tasks.batch_no — kalau tidak, satu batch muncul dua kali.
+  const ownedNos = new Set(
+    local.filter((b) => !b.deleted && typeof b.no === "number").map((b) => b.no as number),
+  );
   for (const t of tasks) {
     if (!t.batch_no || t.batch_no < 1) continue;
+    if (ownedNos.has(t.batch_no)) continue;
     const id = `b-no-${t.batch_no}`;
     const cur = map.get(id);
     if (!cur) {
@@ -289,4 +295,20 @@ export function computeStats(t: Tracker): Stats {
     nextDate: next?.date ?? null,
     nextDays: next ? daysBetween(today, next.date) : null,
   };
+}
+
+/**
+ * Senarai barang. Hanya wujud bila Supabase disambung — mod snapshot tiada
+ * tempat menyimpan inventori, jadi ia pulangkan senarai kosong (bukan data palsu).
+ */
+export async function getItems(): Promise<Item[]> {
+  const supabase = await getSupabase();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("items")
+    .select("id, name, category, tag_epc, qty, note, baggage, ord")
+    .order("ord", { ascending: true })
+    .order("name", { ascending: true });
+  if (error) return [];
+  return (data ?? []) as Item[];
 }

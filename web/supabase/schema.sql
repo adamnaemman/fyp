@@ -76,6 +76,29 @@ alter table public.tasks add column if not exists start_date date;
 alter table public.tasks add column if not exists end_date   date;
 create index if not exists tasks_start_idx on public.tasks (start_date);
 
+-- Batch = kumpulan kerja yang boleh diurus dari web (nama, tarikh, nota, padam).
+-- Tugasan lama hanya ada batch_no; kolum batch_id di bawah menyambungkannya.
+create table if not exists public.batches (
+  id         text primary key,
+  no         smallint not null default 0,
+  label      text not null default '',
+  date       date,                                 -- NULL = tarikh belum ditetapkan
+  note       text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.tasks add column if not exists batch_id text;
+do $$
+begin
+  alter table public.tasks
+    add constraint tasks_batch_fk
+    foreign key (batch_id) references public.batches (id) on delete set null;
+exception
+  when duplicate_object then null;
+end $$;
+create index if not exists tasks_batch_idx on public.tasks (batch_id);
+
 create table if not exists public.milestones (
   id     text primary key,
   label  text not null,
@@ -164,6 +187,7 @@ alter table public.members     enable row level security;
 alter table public.weeks       enable row level security;
 alter table public.focus_items enable row level security;
 alter table public.tasks       enable row level security;
+alter table public.batches     enable row level security;
 alter table public.milestones  enable row level security;
 alter table public.blocked     enable row level security;
 alter table public.specs       enable row level security;
@@ -173,7 +197,7 @@ alter table public.evidence    enable row level security;
 do $$
 declare t text;
 begin
-  foreach t in array array['weeks','focus_items','tasks','milestones',
+  foreach t in array array['weeks','focus_items','tasks','batches','milestones',
                            'blocked','specs','plans','evidence']
   loop
     execute format('drop policy if exists %I_read on public.%I', t, t);
@@ -222,6 +246,7 @@ commit;
 --   select count(*) from weeks;                                    -- 11
 --   select count(*) from focus_items;                              -- 40
 --   select count(*) from tasks;                                    -- 12
+--   select count(*) from batches;                                  -- bilangan batch (dari tasks.batch_no)
 --   select count(*) from pg_policies where schemaname = 'public';  -- >= 17
 --   select email, role from members;
 --

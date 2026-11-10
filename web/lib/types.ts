@@ -104,3 +104,15 @@ export type Viewer = {
   role: "admin" | "member" | "viewer";
   canWrite: boolean;
 };
+
+/** Barang yang dipilih untuk beg (tab Barang). */
+export type Item = {
+  id: string;
+  name: string;
+  category: string | null;
+  tag_epc: string | null;
+  qty: number;
+  note: string | null;
+  baggage: string | null;
+  ord: number;
+};

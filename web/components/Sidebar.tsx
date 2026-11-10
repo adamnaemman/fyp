@@ -11,6 +11,7 @@ const NAV: NavItem[] = [
   { href: "/tugasan", label: "Tugasan", hint: "urus batch + tugasan" },
   { href: "/gantt", label: "Gantt", hint: "susunan tugas ikut tarikh" },
   { href: "/calendar", label: "Kalendar", hint: "tugasan ikut hari" },
+  { href: "/barang", label: "Barang", hint: "senarai barang + tag" },
   { href: "/panduan", label: "Panduan", hint: "untuk SV dan Amru" },
   { href: DOC_URL, label: "Laporan", hint: "Google Doc — sumber utama", external: true },
   { href: REPO_URL, label: "Repo", hint: "kod di GitHub", external: true },
